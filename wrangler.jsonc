@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cook-automation-hub",
+  "compatibility_date": "2026-11-17",
+  // Hash routes (#/apps, #/app/<id>) stay on this page. The SPA fallback
+  // covers any other path so a bad URL still opens the hub.
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "single-page-application"
+  }
+}

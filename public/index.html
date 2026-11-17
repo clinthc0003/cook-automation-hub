@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cook Automation</title>
+    <meta
+      name="description"
+      content="Cook Automation is a small home for the tools we run."
+    />
+    <meta name="theme-color" content="#1f4d3a" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="site-header">
+      <a class="brand" href="#/">Cook Automation</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#/" data-nav="home">Home</a>
+        <a href="#/apps" data-nav="apps">Apps</a>
+      </nav>
+    </header>
+
+    <!-- Views are swapped by app.js. This copy is the no-JS home page. -->
+    <main id="view">
+      <section class="panel">
+        <p class="eyebrow">Hub</p>
+        <h1>Cook Automation</h1>
+        <p class="lead">
+          A small home for the tools we run. Pick an app, use it here, or open
+          it in its own tab.
+        </p>
+        <p><a class="button" href="#/apps">Browse apps</a></p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Cook Automation</p>
+    </footer>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

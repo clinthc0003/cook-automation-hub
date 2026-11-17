@@ -1,0 +1,10 @@
+[
+  {
+    "id": "world-history-map",
+    "name": "World History Map",
+    "description": "Places and events on an interactive map of world history.",
+    "url": "https://map.cookaut.com",
+    "fallbackUrl": "https://world-history-map-project.clinthc0003.workers.dev/",
+    "icon": "/icons/world-history-map.svg"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "name": "cook-automation-hub",
+  "private": true,
+  "description": "Cook Automation hub: a small static front door for our tools.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
