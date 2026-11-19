@@ -9,7 +9,7 @@ A static Cook Automation hub, ready to deploy as one Worker named `cook-automati
 - Home and Apps live in one page. Apps renders cards from `public/apps.json`.
 - The only app is World History Map. The frame loads `https://map.cookaut.com`. The workers.dev fallback (`https://world-history-map-project.clinthc0003.workers.dev/`) is a link, not the frame source.
 - `#/app/<id>` shows Back, Open in new tab, and a short note when the app blocks embedding.
-- `public/manifest.webmanifest`, theme color `#1f4d3a`, and original icons. No service worker.
+- `public/manifest.webmanifest`, theme color `#0E1B2B`, brand SVGs in `public/brand/`, and updated `CA` icons. No service worker.
 
 ## Deferred
 

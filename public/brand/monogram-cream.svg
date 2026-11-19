@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="190 364 644 296">
+  <title>Cook Automation - app_icon_navy</title>
+  <defs>
+    <!-- Glyph centre lines: shared by monogram and wordmark -->
+    <path id="glyph-C" d="M 112 0 H 38 A 38 38 0 0 0 0 38 V 62 A 38 38 0 0 0 38 100 H 112"/>
+    <path id="glyph-O" d="M 38 0 H 80 A 38 38 0 0 1 118 38 V 62 A 38 38 0 0 1 80 100 H 38 A 38 38 0 0 1 0 62 V 38 A 38 38 0 0 1 38 0 Z"/>
+    <path id="glyph-U" d="M 0 0 V 62 A 38 38 0 0 0 38 100 H 70 A 38 38 0 0 0 108 62 V 0"/>
+    <path id="glyph-K" d="M 0 0 V 100 M 124 -26.27 L 14 54 L 124 122.38"/>
+    <path id="glyph-T" d="M 0 0 H 104 M 52.0 0 V 100"/>
+    <path id="glyph-I" d="M 0 0 V 100"/>
+    <path id="glyph-N" d="M 0 100 V 0 L 108 100 V 0"/>
+    <path id="glyph-M" d="M 0 100 V 0 L 68.0 100 L 136 0 V 100"/>
+    <path id="glyph-A" d="M -23.2 140 L 52.0 0 L 127.2 140"/>
+    <path id="glyph-A-swoosh-bold" d="M -4 82 Q 48 64 112 28 Q 48 100 -4 82 Z"/>
+    <path id="glyph-A-swoosh-light" d="M -4 82 Q 48 71.5 112 28 Q 48 92.5 -4 82 Z"/>
+
+    <!-- Trim lines: cut diagonal stroke ends flat at cap height / baseline -->
+    <clipPath id="band-bold"><rect x="-200" y="-12" width="600" height="124"/></clipPath>
+    <clipPath id="base-bold"><rect x="-200" y="-200" width="600" height="299.49"/></clipPath>
+    <clipPath id="band-light"><rect x="-200" y="-7" width="600" height="114"/></clipPath>
+    <clipPath id="base-light"><rect x="-200" y="-200" width="600" height="300.33"/></clipPath>
+
+    <!-- Transparent swoosh clear-space masks -->
+    <mask id="mask-swoosh-bold" maskUnits="userSpaceOnUse" x="-120" y="-120" width="400" height="400">
+      <rect x="-120" y="-120" width="400" height="400" fill="#FFFFFF"/>
+      <use xlink:href="#glyph-A-swoosh-bold" fill="#000000" stroke="#000000" stroke-width="14.4" stroke-linejoin="round"/>
+    </mask>
+    <mask id="mask-swoosh-light" maskUnits="userSpaceOnUse" x="-120" y="-120" width="400" height="400">
+      <rect x="-120" y="-120" width="400" height="400" fill="#FFFFFF"/>
+      <use xlink:href="#glyph-A-swoosh-light" fill="#000000" stroke="#000000" stroke-width="8.4" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+
+<!-- Artwork -->
+  <g>
+    <!-- Monogram: the brand C and A -->
+    <g transform="translate(222.31 396.37) scale(2.31)">
+      <use xlink:href="#glyph-C" stroke="#EEE9E3" fill="none" stroke-width="24" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(558.25 396.37) scale(2.31)">
+      <g mask="url(#mask-swoosh-bold)">
+        <g transform="translate(0 12.51)" clip-path="url(#base-bold)">
+          <use xlink:href="#glyph-A" stroke="#EEE9E3" fill="none" stroke-width="24" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+        </g>
+      </g>
+      <use xlink:href="#glyph-A-swoosh-bold" fill="#EEE9E3"/>
+    </g>
+  </g>
+</svg>

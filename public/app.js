@@ -1,7 +1,7 @@
 /* Cook Automation hub
    Hash routes:
      #/           home
-     #/apps       app cards from /apps.json
+     #/apps       app directory from /apps.json
      #/app/<id>   embedded app, with a new-tab link
 */
 
@@ -53,6 +53,19 @@
       .join("");
   }
 
+  function hostLabel(url) {
+    try {
+      return new URL(url).host;
+    } catch (err) {
+      return "";
+    }
+  }
+
+  function formatCount(count) {
+    var padded = count < 10 ? "0" + count : String(count);
+    return padded + (count === 1 ? " Tool" : " Tools");
+  }
+
   /* ---------- Routing ---------- */
 
   function parseRoute() {
@@ -88,7 +101,7 @@
     document.title = page ? page + " · Cook Automation" : "Cook Automation";
   }
 
-  /* ---------- Views ---------- */
+  /* ---------- DOM helpers ---------- */
 
   function clearView() {
     view.textContent = "";
@@ -104,99 +117,307 @@
     return node;
   }
 
-  function renderHome() {
+  function addArrowLink(parent, className, href, label, id) {
+    var link = document.createElement("a");
+    link.className = className;
+    link.href = href;
+    if (id) {
+      link.id = id;
+    }
+    addText(link, "span", "", label);
+    var arrow = addText(link, "span", "arrow", "\u2192");
+    arrow.setAttribute("aria-hidden", "true");
+    parent.appendChild(link);
+    return link;
+  }
+
+  function buildWatermark(className) {
+    var mark = document.createElement("img");
+    mark.className = className;
+    mark.src = "/brand/monogram-cream.svg";
+    mark.alt = "";
+    mark.setAttribute("aria-hidden", "true");
+    return mark;
+  }
+
+  function buildAppCard(app, headingTag) {
+    var item = document.createElement("li");
+    var card = document.createElement("article");
+    card.className = "app-card";
+
+    /* Top row: app mark + host label */
+    var top = document.createElement("div");
+    top.className = "app-card-top";
+
+    var mark = document.createElement("span");
+    mark.className = "app-mark";
+    if (app.icon) {
+      var image = document.createElement("img");
+      image.src = app.icon;
+      image.alt = "";
+      image.addEventListener("error", function () {
+        image.remove();
+        mark.classList.add("is-initials");
+        mark.textContent = initials(app.name);
+      });
+      mark.appendChild(image);
+    } else {
+      mark.classList.add("is-initials");
+      mark.textContent = initials(app.name);
+    }
+    top.appendChild(mark);
+
+    var host = hostLabel(app.url);
+    if (host) {
+      addText(top, "span", "app-host", host);
+    }
+    card.appendChild(top);
+
+    /* Title (stretched link) + description */
+    var heading = document.createElement(headingTag || "h2");
+    var link = document.createElement("a");
+    link.className = "app-card-link";
+    link.href = "#/app/" + encodeURIComponent(app.id);
+    link.textContent = app.name;
+    heading.appendChild(link);
+    card.appendChild(heading);
+
+    addText(card, "p", "app-card-desc", app.description || "");
+
+    /* Footer: inline hub cue + direct new-tab link */
+    var foot = document.createElement("div");
+    foot.className = "app-card-foot";
+
+    var cta = document.createElement("span");
+    cta.className = "app-card-cta";
+    cta.setAttribute("aria-hidden", "true");
+    addText(cta, "span", "", "Open in hub");
+    addText(cta, "span", "arrow", "\u2192");
+    foot.appendChild(cta);
+
+    if (app.url) {
+      var ext = document.createElement("a");
+      ext.className = "app-card-ext";
+      ext.href = app.url;
+      ext.target = "_blank";
+      ext.rel = "noopener noreferrer";
+      ext.setAttribute("aria-label", "Open " + app.name + " in a new tab");
+      ext.textContent = "New tab \u2197";
+      foot.appendChild(ext);
+    }
+
+    card.appendChild(foot);
+    item.appendChild(card);
+    return item;
+  }
+
+  function buildAppGrid(apps, headingTag) {
+    var list = document.createElement("ul");
+    list.className = apps.length === 1 ? "app-grid is-single" : "app-grid";
+
+    apps.forEach(function (app) {
+      list.appendChild(buildAppCard(app, headingTag));
+    });
+    return list;
+  }
+
+  /* ---------- Home view ---------- */
+
+  function renderHome(token) {
     setTitle("");
     clearView();
 
-    var panel = document.createElement("section");
-    panel.className = "panel";
-    addText(panel, "p", "eyebrow", "Hub");
-    addText(panel, "h1", "", "Cook Automation");
+    /* Hero */
+    var hero = document.createElement("section");
+    hero.className = "hero";
+    hero.appendChild(buildWatermark("hero-watermark"));
+
+    var heroInner = document.createElement("div");
+    heroInner.className = "hero-inner";
+
+    var lockup = document.createElement("img");
+    lockup.className = "hero-lockup";
+    lockup.src = "/brand/lockup-est2019-cream.svg";
+    lockup.alt = "Cook Automation, Est. 2019";
+    heroInner.appendChild(lockup);
+
+    var rule = document.createElement("div");
+    rule.className = "hero-rule";
+    rule.setAttribute("aria-hidden", "true");
+    heroInner.appendChild(rule);
+
+    addText(heroInner, "h1", "hero-title", "A focused home for the tools we run.");
     addText(
-      panel,
+      heroInner,
       "p",
-      "lead",
-      "A small home for the tools we run. Pick an app, use it here, or open it in its own tab."
+      "hero-lead",
+      "Pick an app to open it right here inside the hub, or launch it in its own tab."
     );
 
-    var action = document.createElement("p");
-    var link = document.createElement("a");
-    link.className = "button";
-    link.href = "#/apps";
-    link.textContent = "Browse apps";
-    action.appendChild(link);
-    panel.appendChild(action);
-    view.appendChild(panel);
+    var actions = document.createElement("div");
+    actions.className = "hero-actions";
+    addArrowLink(actions, "button button-light", "#/apps", "Browse apps", "hero-browse-apps");
+    heroInner.appendChild(actions);
+
+    hero.appendChild(heroInner);
+    view.appendChild(hero);
+
+    /* Featured / available tools */
+    var toolsSection = document.createElement("section");
+    toolsSection.className = "home-section";
+    toolsSection.setAttribute("aria-labelledby", "home-tools-heading");
+
+    var sectionHead = document.createElement("div");
+    sectionHead.className = "section-head";
+
+    var headLeft = document.createElement("div");
+    addText(headLeft, "p", "eyebrow", "01 \u00b7 Available tools");
+    var toolsHeading = addText(headLeft, "h2", "", "Active applications");
+    toolsHeading.id = "home-tools-heading";
+    sectionHead.appendChild(headLeft);
+
+    addArrowLink(sectionHead, "text-link", "#/apps", "View full directory", "home-all-apps");
+    toolsSection.appendChild(sectionHead);
+
+    var toolsSlot = document.createElement("div");
+    addText(toolsSlot, "p", "empty-state", "Loading applications\u2026");
+    toolsSection.appendChild(toolsSlot);
+    view.appendChild(toolsSection);
+
+    /* Principles strip */
+    var principlesWrap = document.createElement("section");
+    principlesWrap.className = "principles-wrap";
+    principlesWrap.setAttribute("aria-label", "How the hub works");
+
+    var principles = document.createElement("ol");
+    principles.className = "principles";
+
+    var items = [
+      {
+        num: "01",
+        title: "One front door",
+        copy: "Every active Cook Automation web tool stays organized in a single bookmarkable directory."
+      },
+      {
+        num: "02",
+        title: "Embedded workspace",
+        copy: "Open tools directly inside the hub shell with instant navigation back to the app list."
+      },
+      {
+        num: "03",
+        title: "Direct fallback",
+        copy: "Pop any tool into its own browser tab or fallback host whenever you want a full window."
+      }
+    ];
+
+    items.forEach(function (entry) {
+      var li = document.createElement("li");
+      addText(li, "span", "principle-num", entry.num);
+      addText(li, "h3", "", entry.title);
+      addText(li, "p", "", entry.copy);
+      principles.appendChild(li);
+    });
+
+    principlesWrap.appendChild(principles);
+    view.appendChild(principlesWrap);
+
+    /* Populate live app list */
+    loadApps()
+      .then(function (apps) {
+        if (token !== renderToken) {
+          return;
+        }
+        if (!Array.isArray(apps)) {
+          throw new Error("apps.json must be a list");
+        }
+        toolsSlot.textContent = "";
+        if (!apps.length) {
+          addText(toolsSlot, "p", "empty-state", "No apps are listed yet.");
+          return;
+        }
+        toolsSlot.appendChild(buildAppGrid(apps, "h3"));
+      })
+      .catch(function () {
+        if (token !== renderToken) {
+          return;
+        }
+        toolsSlot.textContent = "";
+        addText(toolsSlot, "p", "empty-state", "The app list could not be loaded.");
+      });
   }
+
+  /* ---------- Apps view ---------- */
 
   function renderStatus(message) {
     clearView();
-    addText(view, "p", "status", message);
+    var box = document.createElement("section");
+    box.className = "status-box";
+    addText(box, "p", "", message);
+    view.appendChild(box);
   }
 
   function renderApps(apps) {
     setTitle("Apps");
     clearView();
 
-    var panel = document.createElement("section");
-    addText(panel, "p", "eyebrow", "Apps");
-    addText(panel, "h1", "", "Apps");
+    /* Navy page banner */
+    var banner = document.createElement("section");
+    banner.className = "page-banner";
+    banner.appendChild(buildWatermark("page-banner-watermark"));
+
+    var bannerInner = document.createElement("div");
+    bannerInner.className = "page-banner-inner";
+
+    var bannerCopy = document.createElement("div");
+    addText(bannerCopy, "p", "eyebrow eyebrow-light", "Directory");
+    addText(bannerCopy, "h1", "", "Apps");
+    addText(
+      bannerCopy,
+      "p",
+      "page-banner-lead",
+      "Tools currently running on Cook Automation. Open any app inside the hub or launch it in a new tab."
+    );
+    bannerInner.appendChild(bannerCopy);
+
+    addText(bannerInner, "span", "banner-count", formatCount(apps.length));
+    banner.appendChild(bannerInner);
+    view.appendChild(banner);
+
+    /* Warm cream directory */
+    var body = document.createElement("section");
+    body.className = "directory-body";
+    body.setAttribute("aria-label", "Application list");
 
     if (!apps.length) {
-      addText(panel, "p", "status", "No apps are listed yet.");
-      view.appendChild(panel);
-      return;
+      addText(body, "p", "empty-state", "No apps are listed yet.");
+    } else {
+      body.appendChild(buildAppGrid(apps, "h2"));
     }
 
-    var list = document.createElement("ul");
-    list.className = "app-grid";
-
-    apps.forEach(function (app) {
-      var item = document.createElement("li");
-      var card = document.createElement("a");
-      card.className = "app-card";
-      card.href = "#/app/" + encodeURIComponent(app.id);
-
-      var mark = document.createElement("span");
-      mark.className = "app-mark";
-      if (app.icon) {
-        var image = document.createElement("img");
-        image.src = app.icon;
-        image.alt = "";
-        image.addEventListener("error", function () {
-          image.remove();
-          mark.textContent = initials(app.name);
-        });
-        mark.appendChild(image);
-      } else {
-        mark.textContent = initials(app.name);
-      }
-
-      card.appendChild(mark);
-      addText(card, "h2", "", app.name);
-      addText(card, "p", "", app.description || "");
-      item.appendChild(card);
-      list.appendChild(item);
-    });
-
-    panel.appendChild(list);
-    view.appendChild(panel);
+    view.appendChild(body);
   }
 
   function renderMissing(id) {
-    setTitle("App");
+    setTitle("App not found");
     clearView();
+
+    var banner = document.createElement("section");
+    banner.className = "page-banner";
+    banner.appendChild(buildWatermark("page-banner-watermark"));
+
+    var bannerInner = document.createElement("div");
+    bannerInner.className = "page-banner-inner";
+    var bannerCopy = document.createElement("div");
+    addText(bannerCopy, "p", "eyebrow eyebrow-light", "Directory");
+    addText(bannerCopy, "h1", "", "App not found");
+    bannerInner.appendChild(bannerCopy);
+    banner.appendChild(bannerInner);
+    view.appendChild(banner);
+
     var panel = document.createElement("section");
-    panel.className = "panel";
-    addText(panel, "h1", "", "App not found");
-    addText(panel, "p", "lead", "Nothing in the list matches “" + id + "”.");
-    var back = document.createElement("p");
-    var link = document.createElement("a");
-    link.className = "button";
-    link.href = "#/apps";
-    link.textContent = "Back to apps";
-    back.appendChild(link);
-    panel.appendChild(back);
+    panel.className = "missing-panel";
+    addText(panel, "p", "", "Nothing in the directory matches \u201c" + id + "\u201d.");
+    addArrowLink(panel, "button button-navy", "#/apps", "Back to apps", "missing-back-apps");
     view.appendChild(panel);
   }
 
@@ -258,19 +479,23 @@
 
     var back = document.createElement("a");
     back.className = "bar-link";
+    back.id = "app-back-link";
     back.href = "#/apps";
-    back.textContent = "Back";
+    back.textContent = "\u2190 Apps";
     bar.appendChild(back);
+
     addText(bar, "h1", "", app.name);
-    bar.appendChild(externalLink(app.url, "Open in new tab"));
+    bar.appendChild(externalLink(app.url, "Open in new tab \u2197"));
     if (app.fallbackUrl && app.fallbackUrl !== app.url) {
-      bar.appendChild(externalLink(app.fallbackUrl, "Open fallback"));
+      bar.appendChild(externalLink(app.fallbackUrl, "Fallback \u2197"));
     }
 
     var note = document.createElement("p");
     note.className = "frame-note";
     note.appendChild(
-      document.createTextNode("If this stays blank, the app is blocking the embedded view. ")
+      document.createTextNode(
+        "If this stays blank, the app is blocking the embedded view. "
+      )
     );
     var noteLink = document.createElement("a");
     noteLink.href = app.url;
@@ -301,11 +526,11 @@
     setChrome(route.name);
 
     if (route.name === "home") {
-      renderHome();
+      renderHome(token);
       return;
     }
 
-    renderStatus("Loading…");
+    renderStatus("Loading\u2026");
     loadApps()
       .then(function (apps) {
         if (token !== renderToken) {

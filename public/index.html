@@ -6,9 +6,19 @@
     <title>Cook Automation</title>
     <meta
       name="description"
-      content="Cook Automation is a small home for the tools we run."
+      content="Cook Automation is a focused home for the tools we run."
     />
-    <meta name="theme-color" content="#1f4d3a" />
+    <meta name="theme-color" content="#0E1B2B" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    />
+
+    <!-- Manifest, icons, and styles -->
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
@@ -17,28 +27,74 @@
   <body>
     <!-- Header -->
     <header class="site-header">
-      <a class="brand" href="#/">Cook Automation</a>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="#/" data-nav="home">Home</a>
-        <a href="#/apps" data-nav="apps">Apps</a>
-      </nav>
+      <div class="header-inner">
+        <a
+          class="brand"
+          id="brand-home"
+          href="#/"
+          aria-label="Cook Automation home"
+        >
+          <img
+            class="brand-wordmark"
+            src="/brand/wordmark-cream.svg"
+            alt="Cook Automation"
+            height="17"
+          />
+        </a>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#/" id="nav-home" data-nav="home" aria-current="page">Home</a>
+          <a href="#/apps" id="nav-apps" data-nav="apps">Apps</a>
+        </nav>
+      </div>
     </header>
 
-    <!-- Views are swapped by app.js. This copy is the no-JS home page. -->
+    <!-- Views are swapped by app.js. This copy is the initial / no-JS home page. -->
     <main id="view">
-      <section class="panel">
-        <p class="eyebrow">Hub</p>
-        <h1>Cook Automation</h1>
-        <p class="lead">
-          A small home for the tools we run. Pick an app, use it here, or open
-          it in its own tab.
-        </p>
-        <p><a class="button" href="#/apps">Browse apps</a></p>
+      <section class="hero">
+        <img
+          class="hero-watermark"
+          src="/brand/monogram-cream.svg"
+          alt=""
+          aria-hidden="true"
+        />
+        <div class="hero-inner">
+          <img
+            class="hero-lockup"
+            src="/brand/lockup-est2019-cream.svg"
+            alt="Cook Automation, Est. 2019"
+          />
+          <div class="hero-rule" aria-hidden="true"></div>
+          <h1 class="hero-title">A focused home for the tools we run.</h1>
+          <p class="hero-lead">
+            Pick an app to open it right here inside the hub, or launch it in
+            its own tab.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-light" id="hero-browse-apps" href="#/apps">
+              <span>Browse apps</span>
+              <span class="arrow" aria-hidden="true">&#8594;</span>
+            </a>
+          </div>
+        </div>
       </section>
     </main>
 
+    <!-- Footer -->
     <footer class="site-footer">
-      <p>Cook Automation</p>
+      <div class="footer-inner">
+        <img
+          class="footer-wordmark"
+          src="/brand/horizontal-est2019-navy.svg"
+          alt="Cook Automation, Est. 2019"
+          height="14"
+        />
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="#/">Home</a>
+          <span class="diamond" aria-hidden="true"></span>
+          <a href="#/apps">Apps</a>
+        </nav>
+      </div>
     </footer>
 
     <script src="/app.js"></script>

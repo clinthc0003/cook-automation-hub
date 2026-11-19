@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="96 90 2712 140">
+  <title>Cook Automation - horizontal EST. 2019 (light)</title>
+  <defs>
+    <!-- Glyph centre lines: shared by monogram and wordmark -->
+    <path id="glyph-C" d="M 112 0 H 38 A 38 38 0 0 0 0 38 V 62 A 38 38 0 0 0 38 100 H 112"/>
+    <path id="glyph-O" d="M 38 0 H 80 A 38 38 0 0 1 118 38 V 62 A 38 38 0 0 1 80 100 H 38 A 38 38 0 0 1 0 62 V 38 A 38 38 0 0 1 38 0 Z"/>
+    <path id="glyph-U" d="M 0 0 V 62 A 38 38 0 0 0 38 100 H 70 A 38 38 0 0 0 108 62 V 0"/>
+    <path id="glyph-K" d="M 0 0 V 100 M 124 -26.27 L 14 54 L 124 122.38"/>
+    <path id="glyph-T" d="M 0 0 H 104 M 52.0 0 V 100"/>
+    <path id="glyph-I" d="M 0 0 V 100"/>
+    <path id="glyph-N" d="M 0 100 V 0 L 108 100 V 0"/>
+    <path id="glyph-M" d="M 0 100 V 0 L 68.0 100 L 136 0 V 100"/>
+    <path id="glyph-A" d="M -23.2 140 L 52.0 0 L 127.2 140"/>
+    <path id="glyph-E" d="M 92 0 H 0 V 100 H 92 M 0 50 H 82"/>
+    <path id="glyph-S" d="M 100 0 H 25 A 25 25 0 0 0 0 25 A 25 25 0 0 0 25 50 H 75 A 25 25 0 0 1 100 75 A 25 25 0 0 1 75 100 H 0"/>
+    <path id="glyph-2" d="M 0 0 H 75 A 25 25 0 0 1 100 25 A 25 25 0 0 1 75 50 H 25 A 25 25 0 0 0 0 75 V 100 H 100"/>
+    <path id="glyph-0" d="M 38 0 H 58 A 38 38 0 0 1 96 38 V 62 A 38 38 0 0 1 58 100 H 38 A 38 38 0 0 1 0 62 V 38 A 38 38 0 0 1 38 0 Z"/>
+    <path id="glyph-1" d="M 0 18 L 24 0 V 100"/>
+    <path id="glyph-9" d="M 100 56 H 25 A 25 25 0 0 1 0 31 V 25 A 25 25 0 0 1 25 0 H 75 A 25 25 0 0 1 100 25 V 75 A 25 25 0 0 1 75 100 H 0"/>
+    <path id="glyph-period" d="M 0 99.5 V 100"/>
+    <path id="glyph-middot" d="M 0 49.75 V 50.25"/>
+    <path id="glyph-A-swoosh-bold" d="M -4 82 Q 48 64 112 28 Q 48 100 -4 82 Z"/>
+    <path id="glyph-A-swoosh-light" d="M -4 82 Q 48 71.5 112 28 Q 48 92.5 -4 82 Z"/>
+
+    <!-- Trim lines: cut diagonal stroke ends flat at cap height / baseline -->
+    <clipPath id="band-bold"><rect x="-200" y="-12" width="600" height="124"/></clipPath>
+    <clipPath id="base-bold"><rect x="-200" y="-200" width="600" height="299.49"/></clipPath>
+    <clipPath id="band-light"><rect x="-200" y="-7" width="600" height="114"/></clipPath>
+    <clipPath id="base-light"><rect x="-200" y="-200" width="600" height="300.33"/></clipPath>
+
+    <!-- Transparent swoosh clear-space masks -->
+    <mask id="mask-swoosh-bold" maskUnits="userSpaceOnUse" x="-120" y="-120" width="400" height="400">
+      <rect x="-120" y="-120" width="400" height="400" fill="#FFFFFF"/>
+      <use xlink:href="#glyph-A-swoosh-bold" fill="#000000" stroke="#000000" stroke-width="14.4" stroke-linejoin="round"/>
+    </mask>
+    <mask id="mask-swoosh-light" maskUnits="userSpaceOnUse" x="-120" y="-120" width="400" height="400">
+      <rect x="-120" y="-120" width="400" height="400" fill="#FFFFFF"/>
+      <use xlink:href="#glyph-A-swoosh-light" fill="#000000" stroke="#000000" stroke-width="8.4" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+
+<!-- Artwork -->
+  <g>
+    <!-- "COOK" (bold) -->
+    <g transform="translate(111.61 111.61) scale(0.97)">
+      <use xlink:href="#glyph-C" stroke="#0E1B2B" fill="none" stroke-width="24" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(256.77 111.61) scale(0.97)">
+      <use xlink:href="#glyph-O" stroke="#0E1B2B" fill="none" stroke-width="24" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(413.55 111.61) scale(0.97)">
+      <use xlink:href="#glyph-O" stroke="#0E1B2B" fill="none" stroke-width="24" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(570.32 111.61) scale(0.97)" clip-path="url(#band-bold)">
+      <use xlink:href="#glyph-K" stroke="#0E1B2B" fill="none" stroke-width="24" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <!-- "AUTOMATION" (light) -->
+    <g transform="translate(766.5 107.37) scale(1.05)">
+      <g mask="url(#mask-swoosh-light)">
+        <g transform="translate(0 6.67)" clip-path="url(#base-light)">
+          <use xlink:href="#glyph-A" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+        </g>
+      </g>
+      <use xlink:href="#glyph-A-swoosh-light" fill="#0E1B2B"/>
+    </g>
+    <g transform="translate(919.2 107.37) scale(1.05)">
+      <use xlink:href="#glyph-U" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(1081.3 107.37) scale(1.05)">
+      <use xlink:href="#glyph-T" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(1226.57 107.37) scale(1.05)">
+      <use xlink:href="#glyph-O" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(1392.88 107.37) scale(1.05)" clip-path="url(#band-light)">
+      <use xlink:href="#glyph-M" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(1579.26 107.37) scale(1.05)">
+      <g mask="url(#mask-swoosh-light)">
+        <g transform="translate(0 6.67)" clip-path="url(#base-light)">
+          <use xlink:href="#glyph-A" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+        </g>
+      </g>
+      <use xlink:href="#glyph-A-swoosh-light" fill="#0E1B2B"/>
+    </g>
+    <g transform="translate(1738.27 107.37) scale(1.05)">
+      <use xlink:href="#glyph-T" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(1883.54 107.37) scale(1.05)">
+      <use xlink:href="#glyph-I" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(1925.64 107.37) scale(1.05)">
+      <use xlink:href="#glyph-O" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(2091.96 107.37) scale(1.05)" clip-path="url(#band-light)">
+      <use xlink:href="#glyph-N" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <!-- Divider -->
+    <rect x="2275.92" y="94" width="6.19" height="132" fill="#0E1B2B"/>
+    <!-- "EST. 2019" (light) -->
+    <g transform="translate(2348.1 137.89) scale(0.44)">
+      <use xlink:href="#glyph-E" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(2410 137.89) scale(0.44)">
+      <use xlink:href="#glyph-S" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(2478.08 137.89) scale(0.44)">
+      <use xlink:href="#glyph-T" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(2542.63 137.89) scale(0.44)">
+      <use xlink:href="#glyph-period" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(2593.03 137.89) scale(0.44)">
+      <use xlink:href="#glyph-2" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(2658.46 137.89) scale(0.44)">
+      <use xlink:href="#glyph-0" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(2724.78 137.89) scale(0.44)" clip-path="url(#band-light)">
+      <use xlink:href="#glyph-1" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+    <g transform="translate(2756.61 137.89) scale(0.44)">
+      <use xlink:href="#glyph-9" stroke="#0E1B2B" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+    </g>
+  </g>
+</svg>
