@@ -2,7 +2,7 @@
    Hash routes:
      #/           home
      #/apps       app directory from /apps.json
-     #/app/<id>   embedded app, with a new-tab link
+     #/app/<id>   app feature overview, launching the live tool in a new tab
 */
 
 (function () {
@@ -15,9 +15,6 @@
 
   /* ---------- Data ---------- */
 
-  // fallbackUrl is the workers.dev host for World History Map. The frame
-  // loads `url` only. The fallback is offered as a link when embedding fails
-  // or the custom host is not ready.
   function loadApps() {
     if (!appsRequest) {
       appsRequest = fetch("/apps.json")
@@ -66,6 +63,11 @@
     return padded + (count === 1 ? " Tool" : " Tools");
   }
 
+  function padIndex(index) {
+    var n = index + 1;
+    return n < 10 ? "0" + n : String(n);
+  }
+
   /* ---------- Routing ---------- */
 
   function parseRoute() {
@@ -85,7 +87,6 @@
   }
 
   function setChrome(routeName) {
-    document.body.classList.toggle("is-app", routeName === "app");
     var current = routeName === "app" ? "apps" : routeName;
 
     navLinks.forEach(function (link) {
@@ -131,6 +132,25 @@
     return link;
   }
 
+  function addLaunchLink(parent, className, href, label, ariaLabel, id) {
+    var link = document.createElement("a");
+    link.className = className;
+    link.href = href;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    if (id) {
+      link.id = id;
+    }
+    if (ariaLabel) {
+      link.setAttribute("aria-label", ariaLabel);
+    }
+    addText(link, "span", "", label);
+    var arrow = addText(link, "span", "arrow-ext", "\u2197");
+    arrow.setAttribute("aria-hidden", "true");
+    parent.appendChild(link);
+    return link;
+  }
+
   function buildWatermark(className) {
     var mark = document.createElement("img");
     mark.className = className;
@@ -139,6 +159,8 @@
     mark.setAttribute("aria-hidden", "true");
     return mark;
   }
+
+  /* ---------- App cards ---------- */
 
   function buildAppCard(app, headingTag) {
     var item = document.createElement("li");
@@ -173,7 +195,7 @@
     }
     card.appendChild(top);
 
-    /* Title (stretched link) + description */
+    /* Title (stretched link to overview) + description */
     var heading = document.createElement(headingTag || "h2");
     var link = document.createElement("a");
     link.className = "app-card-link";
@@ -184,26 +206,25 @@
 
     addText(card, "p", "app-card-desc", app.description || "");
 
-    /* Footer: inline hub cue + direct new-tab link */
+    /* Footer: Learn more cue + direct new-tab launch */
     var foot = document.createElement("div");
     foot.className = "app-card-foot";
 
     var cta = document.createElement("span");
     cta.className = "app-card-cta";
     cta.setAttribute("aria-hidden", "true");
-    addText(cta, "span", "", "Open in hub");
+    addText(cta, "span", "", app.ctaLabel || "Learn more");
     addText(cta, "span", "arrow", "\u2192");
     foot.appendChild(cta);
 
     if (app.url) {
-      var ext = document.createElement("a");
-      ext.className = "app-card-ext";
-      ext.href = app.url;
-      ext.target = "_blank";
-      ext.rel = "noopener noreferrer";
-      ext.setAttribute("aria-label", "Open " + app.name + " in a new tab");
-      ext.textContent = "New tab \u2197";
-      foot.appendChild(ext);
+      addLaunchLink(
+        foot,
+        "app-card-ext",
+        app.url,
+        app.launchLabel || "Open app",
+        "Open " + app.name + " in a new tab"
+      );
     }
 
     card.appendChild(foot);
@@ -249,19 +270,18 @@
     var cta = document.createElement("span");
     cta.className = "button button-navy app-card-primary";
     cta.setAttribute("aria-hidden", "true");
-    addText(cta, "span", "", app.ctaLabel || "Open in hub");
+    addText(cta, "span", "", app.ctaLabel || "Learn more");
     addText(cta, "span", "arrow", "\u2192");
     actions.appendChild(cta);
 
     if (app.url) {
-      var ext = document.createElement("a");
-      ext.className = "app-card-ext app-card-ext-lg";
-      ext.href = app.url;
-      ext.target = "_blank";
-      ext.rel = "noopener noreferrer";
-      ext.setAttribute("aria-label", "Open " + app.name + " in a new tab");
-      ext.textContent = "New tab \u2197";
-      actions.appendChild(ext);
+      addLaunchLink(
+        actions,
+        "app-card-ext app-card-ext-lg",
+        app.url,
+        app.launchLabel || "Open map",
+        "Open " + app.name + " in a new tab at " + host
+      );
     }
 
     content.appendChild(actions);
@@ -339,7 +359,7 @@
       heroInner,
       "p",
       "hero-lead",
-      "Pick an app to open it right here inside the hub, or launch it in its own tab."
+      "Explore what we build, read a quick overview of each app, and launch any tool in its own browser tab."
     );
 
     var actions = document.createElement("div");
@@ -388,13 +408,13 @@
       },
       {
         num: "02",
-        title: "Embedded workspace",
-        copy: "Open tools directly inside the hub shell with instant navigation back to the app list."
+        title: "Clear overviews",
+        copy: "Each app has a quick overview page summarizing what it does and how to use it."
       },
       {
         num: "03",
-        title: "Direct fallback",
-        copy: "Pop any tool into its own browser tab or fallback host whenever you want a full window."
+        title: "Full-tab launch",
+        copy: "Every tool opens directly in its own browser tab at full speed and full screen size."
       }
     ];
 
@@ -434,7 +454,7 @@
       });
   }
 
-  /* ---------- Apps view ---------- */
+  /* ---------- Apps directory view ---------- */
 
   function renderStatus(message) {
     clearView();
@@ -463,7 +483,7 @@
       bannerCopy,
       "p",
       "page-banner-lead",
-      "Tools currently running on Cook Automation. Open any app inside the hub or launch it in a new tab."
+      "Tools currently running on Cook Automation. Read an overview of any app or launch it directly in a new tab."
     );
     bannerInner.appendChild(bannerCopy);
 
@@ -483,6 +503,166 @@
     }
 
     view.appendChild(body);
+  }
+
+  /* ---------- App overview subpage ---------- */
+
+  function renderAppDetail(app) {
+    setTitle(app.name);
+    clearView();
+
+    var host = hostLabel(app.url);
+    var launchText = app.launchLabel || "Open app";
+
+    /* Deep navy detail hero */
+    var hero = document.createElement("section");
+    hero.className = "detail-hero";
+    hero.appendChild(buildWatermark("page-banner-watermark"));
+
+    var heroInner = document.createElement("div");
+    heroInner.className = "detail-hero-inner";
+
+    var back = document.createElement("a");
+    back.className = "back-link";
+    back.id = "detail-back-apps";
+    back.href = "#/apps";
+    addText(back, "span", "arrow-back", "\u2190");
+    addText(back, "span", "", "Back to apps");
+    heroInner.appendChild(back);
+
+    var grid = document.createElement("div");
+    grid.className = app.image ? "detail-hero-grid" : "detail-hero-grid is-solo";
+
+    /* Left column: title, summary, primary launch CTA */
+    var copy = document.createElement("div");
+    copy.className = "detail-hero-copy";
+
+    var eyebrowText = app.category ? app.category : "Application";
+    if (host) {
+      eyebrowText += " \u00b7 " + host;
+    }
+    addText(copy, "p", "eyebrow eyebrow-light", eyebrowText);
+    addText(copy, "h1", "detail-title", app.name);
+    addText(copy, "p", "detail-lead", app.overview || app.description || "");
+
+    var actions = document.createElement("div");
+    actions.className = "hero-actions";
+    if (app.url) {
+      addLaunchLink(
+        actions,
+        "button button-light",
+        app.url,
+        launchText + " at " + (host || "live site"),
+        "Open " + app.name + " in a new tab at " + (host || app.url),
+        "detail-open-primary"
+      );
+    }
+    copy.appendChild(actions);
+    grid.appendChild(copy);
+
+    /* Right column: framed visual plate */
+    if (app.image) {
+      var plate = document.createElement("div");
+      plate.className = "detail-plate";
+      plate.setAttribute("aria-hidden", "true");
+
+      var img = document.createElement("img");
+      img.className = "detail-plate-img";
+      img.src = app.image;
+      img.alt = "";
+      plate.appendChild(img);
+
+      var frame = document.createElement("div");
+      frame.className = "app-card-media-frame";
+      plate.appendChild(frame);
+
+      grid.appendChild(plate);
+    }
+
+    heroInner.appendChild(grid);
+    hero.appendChild(heroInner);
+    view.appendChild(hero);
+
+    /* Quick-glance stats strip */
+    if (Array.isArray(app.stats) && app.stats.length) {
+      var statsSection = document.createElement("section");
+      statsSection.className = "detail-stats-band";
+      statsSection.setAttribute("aria-label", "At a glance");
+
+      var statsList = document.createElement("dl");
+      statsList.className = "detail-stats";
+
+      app.stats.forEach(function (stat) {
+        var cell = document.createElement("div");
+        cell.className = "detail-stat";
+        addText(cell, "dt", "detail-stat-value", stat.value);
+        addText(cell, "dd", "detail-stat-label", stat.label);
+        statsList.appendChild(cell);
+      });
+
+      statsSection.appendChild(statsList);
+      view.appendChild(statsSection);
+    }
+
+    /* Key features grid */
+    if (Array.isArray(app.features) && app.features.length) {
+      var featSection = document.createElement("section");
+      featSection.className = "detail-section";
+      featSection.setAttribute("aria-labelledby", "detail-features-heading");
+
+      var head = document.createElement("div");
+      head.className = "section-head";
+      var headLeft = document.createElement("div");
+      addText(headLeft, "p", "eyebrow", "01 \u00b7 Features");
+      var featHeading = addText(headLeft, "h2", "", "What you can do");
+      featHeading.id = "detail-features-heading";
+      head.appendChild(headLeft);
+      featSection.appendChild(head);
+
+      var featGrid = document.createElement("ol");
+      featGrid.className = "feature-grid";
+
+      app.features.forEach(function (feat, index) {
+        var card = document.createElement("li");
+        card.className = "feature-card";
+        addText(card, "span", "feature-num", padIndex(index));
+        addText(card, "h3", "", feat.title);
+        addText(card, "p", "", feat.copy);
+        featGrid.appendChild(card);
+      });
+
+      featSection.appendChild(featGrid);
+      view.appendChild(featSection);
+    }
+
+    /* Bottom launch callout + data credit */
+    var footBand = document.createElement("section");
+    footBand.className = "detail-cta-wrap";
+    footBand.setAttribute("aria-label", "Launch application");
+
+    var footBox = document.createElement("div");
+    footBox.className = "detail-cta-box";
+
+    var footCopy = document.createElement("div");
+    addText(footCopy, "h2", "detail-cta-title", "Ready to explore?");
+    if (app.credit) {
+      addText(footCopy, "p", "detail-credit", app.credit);
+    }
+    footBox.appendChild(footCopy);
+
+    if (app.url) {
+      addLaunchLink(
+        footBox,
+        "button button-navy",
+        app.url,
+        launchText,
+        "Open " + app.name + " in a new tab at " + (host || app.url),
+        "detail-open-bottom"
+      );
+    }
+
+    footBand.appendChild(footBox);
+    view.appendChild(footBand);
   }
 
   function renderMissing(id) {
@@ -509,109 +689,13 @@
     view.appendChild(panel);
   }
 
-  /* ---------- App frame ---------- */
-
-  function externalLink(href, label) {
-    var link = document.createElement("a");
-    link.className = "bar-link";
-    link.href = href;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.textContent = label;
-    return link;
-  }
-
-  function watchFrame(frame, note, app) {
-    frame.addEventListener("error", function () {
-      markBlocked(note, app);
-    });
-
-    frame.addEventListener("load", function () {
-      try {
-        var href = frame.contentWindow.location.href;
-        // A readable about:blank means the browser kept our empty document.
-        // Cross-origin pages throw, which is what a successful embed looks like.
-        if (!href || href === "about:blank") {
-          markBlocked(note, app);
-        }
-      } catch (err) {
-        note.classList.remove("is-blocked");
-      }
-    });
-  }
-
-  function markBlocked(note, app) {
-    note.classList.add("is-blocked");
-    note.textContent = "";
-    note.appendChild(
-      document.createTextNode(app.name + " does not allow embedding. ")
-    );
-    var link = document.createElement("a");
-    link.href = app.url;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.textContent = "Open it in a new tab";
-    note.appendChild(link);
-    note.appendChild(document.createTextNode("."));
-  }
-
-  function renderApp(app) {
-    setTitle(app.name);
-    clearView();
-
-    var shell = document.createElement("section");
-    shell.className = "app-view";
-
-    var bar = document.createElement("div");
-    bar.className = "app-bar";
-
-    var back = document.createElement("a");
-    back.className = "bar-link";
-    back.id = "app-back-link";
-    back.href = "#/apps";
-    back.textContent = "\u2190 Apps";
-    bar.appendChild(back);
-
-    addText(bar, "h1", "", app.name);
-    bar.appendChild(externalLink(app.url, "Open in new tab \u2197"));
-    if (app.fallbackUrl && app.fallbackUrl !== app.url) {
-      bar.appendChild(externalLink(app.fallbackUrl, "Fallback \u2197"));
-    }
-
-    var note = document.createElement("p");
-    note.className = "frame-note";
-    note.appendChild(
-      document.createTextNode(
-        "If this stays blank, the app is blocking the embedded view. "
-      )
-    );
-    var noteLink = document.createElement("a");
-    noteLink.href = app.url;
-    noteLink.target = "_blank";
-    noteLink.rel = "noopener noreferrer";
-    noteLink.textContent = "Open in a new tab";
-    note.appendChild(noteLink);
-    note.appendChild(document.createTextNode("."));
-
-    var frame = document.createElement("iframe");
-    frame.className = "app-frame";
-    frame.title = app.name;
-    frame.src = app.url;
-    frame.referrerPolicy = "no-referrer";
-    watchFrame(frame, note, app);
-
-    shell.appendChild(bar);
-    shell.appendChild(note);
-    shell.appendChild(frame);
-    view.appendChild(shell);
-  }
-
   /* ---------- Start ---------- */
 
   function show() {
     var token = (renderToken += 1);
     var route = parseRoute();
     setChrome(route.name);
+    window.scrollTo(0, 0);
 
     if (route.name === "home") {
       renderHome(token);
@@ -636,7 +720,7 @@
           renderMissing(route.id);
           return;
         }
-        renderApp(app);
+        renderAppDetail(app);
       })
       .catch(function () {
         if (token !== renderToken) {

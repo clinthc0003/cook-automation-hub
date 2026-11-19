@@ -7,8 +7,8 @@ A static Cook Automation hub, ready to deploy as one Worker named `cook-automati
 - `wrangler.jsonc` serves `./public` with SPA fallback. No routes, custom domains, KV, Access, or secrets.
 - `package.json` has `npm run dev` (`wrangler dev`) and `npm run deploy` (`wrangler deploy`). Wrangler is a devDependency.
 - Home and Apps live in one page. Apps renders cards from `public/apps.json`.
-- The only app is World History Map. The frame loads `https://map.cookaut.com`. The workers.dev fallback (`https://world-history-map-project.clinthc0003.workers.dev/`) is a link, not the frame source.
-- `#/app/<id>` shows Back, Open in new tab, and a short note when the app blocks embedding.
+- The only app is World History Map (`https://map.cookaut.com`), launched directly in a new tab.
+- `#/app/<id>` shows a feature overview subpage with a direct new-tab launch button and a Back to apps link.
 - `public/manifest.webmanifest`, theme color `#0E1B2B`, brand SVGs in `public/brand/`, and updated `CA` icons. No service worker.
 
 ## Deferred

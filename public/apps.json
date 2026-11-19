@@ -2,13 +2,60 @@
   {
     "id": "world-history-map",
     "name": "World History Map",
-    "description": "Places and events on an interactive map of world history.",
+    "description": "An interactive atlas of shifting political borders, states, and empires from 3400 BCE to 2024 CE.",
     "url": "https://map.cookaut.com",
     "fallbackUrl": "https://world-history-map-project.clinthc0003.workers.dev/",
     "icon": "/icons/world-history-map.svg",
     "featured": true,
     "category": "Interactive Atlas",
     "image": "/images/world-history-map-atlas.webp",
-    "ctaLabel": "Explore map"
+    "ctaLabel": "Learn more",
+    "launchLabel": "Open map",
+    "overview": "Explore 5,400 years of shifting empires, borders, and civilizations on a fluid 3D globe or flat historical atlas.",
+    "stats": [
+      {
+        "value": "5,400 yrs",
+        "label": "3400 BCE to 2024 CE"
+      },
+      {
+        "value": "1,544",
+        "label": "Sovereign states & empires"
+      },
+      {
+        "value": "8,129",
+        "label": "Historical border snapshots"
+      },
+      {
+        "value": "2D / 3D",
+        "label": "Morphing atlas & globe"
+      }
+    ],
+    "features": [
+      {
+        "title": "3D Globe & 2D Atlas",
+        "copy": "Morph smoothly between a spherical Earth in space with atmospheric glow and a flat Mercator map, with drag, tilt, and compass reset."
+      },
+      {
+        "title": "5,400-Year Timeline",
+        "copy": "Scrub the year slider, step by 1, 10, or 100 years, type any year directly, or press play to watch borders evolve automatically."
+      },
+      {
+        "title": "Thematic Color Lenses",
+        "copy": "Recolor the world by distinct states, religion, political system, economy, or labor system—with custom color pickers and multi-select legend filters."
+      },
+      {
+        "title": "Switchable Base Layers",
+        "copy": "Cycle between modern Positron cartography, orbital satellite imagery, or clean natural terrain with zero modern borders."
+      },
+      {
+        "title": "State & Empire Profiles",
+        "copy": "Click any territory or search the active-states sidebar to view its lifespan, governance, religion, economy, capital, population estimate, area, and Wikipedia link."
+      },
+      {
+        "title": "Works Anywhere",
+        "copy": "Runs directly in the browser on desktop or mobile and installs to your home screen as a fullscreen web app."
+      }
+    ],
+    "credit": "Border data from Cliopatria (Seshat Global History Databank, v0.2.1) with OpenFreeMap basemaps."
   }
 ]

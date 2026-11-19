@@ -1,8 +1,8 @@
 # Cook Automation hub
 
-A small front door for Cook Automation tools. One Cloudflare Worker serves the static site in `public/`. Home welcomes you. Apps reads `public/apps.json` and can open a tool in the page or in a new tab.
+A small front door for Cook Automation tools. One Cloudflare Worker serves the static site in `public/`. Home welcomes you, Apps reads `public/apps.json`, each app has a feature overview subpage, and live apps open directly in a new tab.
 
-The only app today is World History Map (`https://map.cookaut.com`). `fallbackUrl` in `apps.json` is the workers.dev host, offered as a link, not loaded in the frame.
+The only app today is World History Map (`https://map.cookaut.com`).
 
 ## Local development
 
@@ -15,7 +15,7 @@ Wrangler prints a local URL (usually `http://localhost:8787`). Use that.
 
 - `#/` is Home
 - `#/apps` is the app list
-- `#/app/world-history-map` embeds World History Map
+- `#/app/world-history-map` is the World History Map feature overview page
 
 There is no build step.
 
