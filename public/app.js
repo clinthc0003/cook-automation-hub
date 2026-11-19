@@ -211,12 +211,100 @@
     return item;
   }
 
+  function buildFeaturedAppCard(app, headingTag) {
+    var item = document.createElement("li");
+    item.className = "app-grid-item is-featured";
+
+    var card = document.createElement("article");
+    card.className = "app-card is-featured";
+
+    /* Left column: editorial copy & actions */
+    var content = document.createElement("div");
+    content.className = "app-card-content";
+
+    var meta = document.createElement("div");
+    meta.className = "app-card-top";
+    addText(meta, "span", "eyebrow app-card-eyebrow", app.category || "Featured");
+
+    var host = hostLabel(app.url);
+    if (host) {
+      addText(meta, "span", "app-host", host);
+    }
+    content.appendChild(meta);
+
+    var heading = document.createElement(headingTag || "h2");
+    heading.className = "app-card-title-lg";
+    var link = document.createElement("a");
+    link.className = "app-card-link";
+    link.href = "#/app/" + encodeURIComponent(app.id);
+    link.textContent = app.name;
+    heading.appendChild(link);
+    content.appendChild(heading);
+
+    addText(content, "p", "app-card-desc", app.description || "");
+
+    var actions = document.createElement("div");
+    actions.className = "app-card-actions";
+
+    var cta = document.createElement("span");
+    cta.className = "button button-navy app-card-primary";
+    cta.setAttribute("aria-hidden", "true");
+    addText(cta, "span", "", app.ctaLabel || "Open in hub");
+    addText(cta, "span", "arrow", "\u2192");
+    actions.appendChild(cta);
+
+    if (app.url) {
+      var ext = document.createElement("a");
+      ext.className = "app-card-ext app-card-ext-lg";
+      ext.href = app.url;
+      ext.target = "_blank";
+      ext.rel = "noopener noreferrer";
+      ext.setAttribute("aria-label", "Open " + app.name + " in a new tab");
+      ext.textContent = "New tab \u2197";
+      actions.appendChild(ext);
+    }
+
+    content.appendChild(actions);
+    card.appendChild(content);
+
+    /* Right column: cartographic visual stage */
+    var media = document.createElement("div");
+    media.className = "app-card-media";
+    media.setAttribute("aria-hidden", "true");
+
+    if (app.image) {
+      var img = document.createElement("img");
+      img.className = "app-card-media-img";
+      img.src = app.image;
+      img.alt = "";
+      media.appendChild(img);
+    }
+
+    var frame = document.createElement("div");
+    frame.className = "app-card-media-frame";
+    media.appendChild(frame);
+
+    addText(media, "span", "app-card-coords", "180\u00b0W \u2014 180\u00b0E");
+
+    card.appendChild(media);
+    item.appendChild(card);
+    return item;
+  }
+
   function buildAppGrid(apps, headingTag) {
+    var hasFeatured = apps.some(function (app) {
+      return Boolean(app.featured && app.image);
+    });
     var list = document.createElement("ul");
-    list.className = apps.length === 1 ? "app-grid is-single" : "app-grid";
+    list.className =
+      apps.length === 1 && !hasFeatured ? "app-grid is-single" : "app-grid";
 
     apps.forEach(function (app) {
-      list.appendChild(buildAppCard(app, headingTag));
+      if (app.featured && app.image) {
+        list.appendChild(buildFeaturedAppCard(app, headingTag));
+      } else {
+        list.appendChild(buildAppCard(app, headingTag));
+      }
     });
     return list;
   }
