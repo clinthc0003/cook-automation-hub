@@ -16,6 +16,7 @@ Wrangler prints a local URL (usually `http://localhost:8787`). Use that.
 - `#/` is Home
 - `#/apps` is the app list
 - `#/app/world-history-map` is the World History Map feature overview page
+- `#/contact` is the Contact page (`support@cookaut.com`)
 
 There is no build step.
 

@@ -3,11 +3,13 @@
      #/           home
      #/apps       app directory from /apps.json
      #/app/<id>   app feature overview, launching the live tool in a new tab
+     #/contact    support contact page
 */
 
 (function () {
   "use strict";
 
+  var SUPPORT_EMAIL = "support@cookaut.com";
   var view = document.querySelector("#view");
   var navLinks = document.querySelectorAll("[data-nav]");
   var appsRequest = null;
@@ -79,6 +81,9 @@
     }
     if (parts[0] === "apps") {
       return { name: "apps" };
+    }
+    if (parts[0] === "contact") {
+      return { name: "contact" };
     }
     if (parts[0] === "app" && parts[1]) {
       return { name: "app", id: decodeURIComponent(parts[1]) };
@@ -689,6 +694,172 @@
     view.appendChild(panel);
   }
 
+  /* ---------- Contact view ---------- */
+
+  function copyEmail(button, feedback) {
+    function showCopied() {
+      feedback.textContent = "Copied " + SUPPORT_EMAIL;
+      button.textContent = "Copied";
+      window.setTimeout(function () {
+        button.textContent = "Copy email";
+      }, 2200);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(SUPPORT_EMAIL).then(showCopied, function () {
+        feedback.textContent = SUPPORT_EMAIL;
+      });
+      return;
+    }
+
+    var helper = document.createElement("textarea");
+    helper.value = SUPPORT_EMAIL;
+    helper.setAttribute("readonly", "");
+    helper.style.position = "fixed";
+    helper.style.opacity = "0";
+    document.body.appendChild(helper);
+    helper.select();
+    try {
+      document.execCommand("copy");
+      showCopied();
+    } catch (err) {
+      feedback.textContent = SUPPORT_EMAIL;
+    }
+    helper.remove();
+  }
+
+  function renderContact() {
+    setTitle("Contact");
+    clearView();
+
+    /* Deep navy banner */
+    var banner = document.createElement("section");
+    banner.className = "page-banner";
+    banner.appendChild(buildWatermark("page-banner-watermark"));
+
+    var bannerInner = document.createElement("div");
+    bannerInner.className = "page-banner-inner";
+
+    var bannerCopy = document.createElement("div");
+    addText(bannerCopy, "p", "eyebrow eyebrow-light", "Get in touch");
+    addText(bannerCopy, "h1", "", "Contact");
+    addText(
+      bannerCopy,
+      "p",
+      "page-banner-lead",
+      "Questions, bug reports, or feedback about Cook Automation tools? Reach out directly by email."
+    );
+    bannerInner.appendChild(bannerCopy);
+
+    banner.appendChild(bannerInner);
+    view.appendChild(banner);
+
+    /* Warm cream contact body */
+    var body = document.createElement("section");
+    body.className = "contact-body";
+    body.setAttribute("aria-labelledby", "contact-primary-heading");
+
+    var card = document.createElement("div");
+    card.className = "contact-card";
+
+    /* Left column: primary email & actions */
+    var primary = document.createElement("div");
+    primary.className = "contact-primary";
+    addText(primary, "p", "eyebrow", "Primary support");
+
+    var heading = document.createElement("h2");
+    heading.id = "contact-primary-heading";
+    heading.className = "contact-email-heading";
+
+    var emailLink = document.createElement("a");
+    emailLink.className = "contact-email-link";
+    emailLink.id = "contact-email-address";
+    emailLink.href = "mailto:" + SUPPORT_EMAIL;
+    emailLink.textContent = SUPPORT_EMAIL;
+    heading.appendChild(emailLink);
+    primary.appendChild(heading);
+
+    addText(
+      primary,
+      "p",
+      "contact-lead",
+      "Email us directly for help with any Cook Automation app, issue reports, or general inquiries."
+    );
+
+    var actions = document.createElement("div");
+    actions.className = "contact-actions";
+
+    var mailBtn = document.createElement("a");
+    mailBtn.className = "button button-navy";
+    mailBtn.id = "contact-email-btn";
+    mailBtn.href = "mailto:" + SUPPORT_EMAIL;
+    addText(mailBtn, "span", "", "Email support");
+    var arrow = addText(mailBtn, "span", "arrow", "\u2192");
+    arrow.setAttribute("aria-hidden", "true");
+    actions.appendChild(mailBtn);
+
+    var copyBtn = document.createElement("button");
+    copyBtn.type = "button";
+    copyBtn.className = "button button-outline-navy";
+    copyBtn.id = "contact-copy-btn";
+    copyBtn.textContent = "Copy email";
+    actions.appendChild(copyBtn);
+
+    var feedback = document.createElement("span");
+    feedback.className = "sr-only";
+    feedback.setAttribute("aria-live", "polite");
+    actions.appendChild(feedback);
+
+    copyBtn.addEventListener("click", function () {
+      copyEmail(copyBtn, feedback);
+    });
+
+    primary.appendChild(actions);
+    card.appendChild(primary);
+
+    /* Right column: helpful details checklist */
+    var notes = document.createElement("div");
+    notes.className = "contact-notes";
+    addText(notes, "p", "eyebrow", "Helpful to include");
+
+    var list = document.createElement("ol");
+    list.className = "contact-list";
+
+    var tips = [
+      {
+        num: "01",
+        title: "Which app",
+        copy: "Let us know which Cook Automation tool you are writing about."
+      },
+      {
+        num: "02",
+        title: "What you need",
+        copy: "Share a brief description of your question, bug report, or idea."
+      },
+      {
+        num: "03",
+        title: "Device & browser",
+        copy: "Include your device or browser if you are reporting a display issue."
+      }
+    ];
+
+    tips.forEach(function (tip) {
+      var li = document.createElement("li");
+      addText(li, "span", "contact-tip-num", tip.num);
+      var tipBody = document.createElement("div");
+      addText(tipBody, "h3", "", tip.title);
+      addText(tipBody, "p", "", tip.copy);
+      li.appendChild(tipBody);
+      list.appendChild(li);
+    });
+
+    notes.appendChild(list);
+    card.appendChild(notes);
+
+    body.appendChild(card);
+    view.appendChild(body);
+  }
+
   /* ---------- Start ---------- */
 
   function show() {
@@ -699,6 +870,11 @@
 
     if (route.name === "home") {
       renderHome(token);
+      return;
+    }
+
+    if (route.name === "contact") {
+      renderContact();
       return;
     }
 
