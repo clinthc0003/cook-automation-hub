@@ -9,6 +9,7 @@
     "featured": true,
     "category": "Interactive Atlas",
     "image": "/images/world-history-map-atlas.webp",
+    "animatedPreview": "world-history-map",
     "ctaLabel": "Learn more",
     "launchLabel": "Open map",
     "overview": "Explore 5,400 years of shifting empires, borders, and civilizations on a fluid 3D globe or flat historical atlas.",

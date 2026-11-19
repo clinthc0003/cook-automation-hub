@@ -14,6 +14,7 @@
   var navLinks = document.querySelectorAll("[data-nav]");
   var appsRequest = null;
   var renderToken = 0;
+  var activePreview = null;
 
   /* ---------- Data ---------- */
 
@@ -110,6 +111,10 @@
   /* ---------- DOM helpers ---------- */
 
   function clearView() {
+    if (activePreview) {
+      activePreview.destroy();
+      activePreview = null;
+    }
     view.textContent = "";
   }
 
@@ -565,21 +570,32 @@
     copy.appendChild(actions);
     grid.appendChild(copy);
 
-    /* Right column: framed visual plate */
+    /* Right column: framed visual plate (animated preview when available) */
     if (app.image) {
       var plate = document.createElement("div");
-      plate.className = "detail-plate";
-      plate.setAttribute("aria-hidden", "true");
 
-      var img = document.createElement("img");
-      img.className = "detail-plate-img";
-      img.src = app.image;
-      img.alt = "";
-      plate.appendChild(img);
+      if (app.animatedPreview === "world-history-map" && window.CookMapPreview) {
+        plate.className = "detail-plate is-animated";
+        plate.setAttribute("role", "region");
+        plate.setAttribute(
+          "aria-label",
+          "Animated preview of historical borders changing over time"
+        );
+        activePreview = window.CookMapPreview.mount(plate);
+      } else {
+        plate.className = "detail-plate";
+        plate.setAttribute("aria-hidden", "true");
 
-      var frame = document.createElement("div");
-      frame.className = "app-card-media-frame";
-      plate.appendChild(frame);
+        var img = document.createElement("img");
+        img.className = "detail-plate-img";
+        img.src = app.image;
+        img.alt = "";
+        plate.appendChild(img);
+
+        var frame = document.createElement("div");
+        frame.className = "app-card-media-frame";
+        plate.appendChild(frame);
+      }
 
       grid.appendChild(plate);
     }
