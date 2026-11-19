@@ -14,13 +14,13 @@
   var navLinks = document.querySelectorAll("[data-nav]");
   var appsRequest = null;
   var renderToken = 0;
-  var activePreview = null;
+  var activePreviews = [];
 
   /* ---------- Data ---------- */
 
   function loadApps() {
     if (!appsRequest) {
-      appsRequest = fetch("/apps.json")
+      appsRequest = fetch("/apps.json?v=2")
         .then(function (response) {
           if (!response.ok) {
             throw new Error("apps.json request failed");
@@ -111,9 +111,8 @@
   /* ---------- DOM helpers ---------- */
 
   function clearView() {
-    if (activePreview) {
-      activePreview.destroy();
-      activePreview = null;
+    while (activePreviews.length) {
+      activePreviews.pop().destroy();
     }
     view.textContent = "";
   }
@@ -299,22 +298,29 @@
 
     /* Right column: cartographic visual stage */
     var media = document.createElement("div");
-    media.className = "app-card-media";
     media.setAttribute("aria-hidden", "true");
 
-    if (app.image) {
-      var img = document.createElement("img");
-      img.className = "app-card-media-img";
-      img.src = app.image;
-      img.alt = "";
-      media.appendChild(img);
+    if (app.animatedPreview === "world-history-map" && window.CookMapPreview) {
+      media.className = "app-card-media is-animated";
+      activePreviews.push(
+        window.CookMapPreview.mount(media, { interactive: false })
+      );
+    } else {
+      media.className = "app-card-media";
+      if (app.image) {
+        var img = document.createElement("img");
+        img.className = "app-card-media-img";
+        img.src = app.image;
+        img.alt = "";
+        media.appendChild(img);
+      }
+
+      var frame = document.createElement("div");
+      frame.className = "app-card-media-frame";
+      media.appendChild(frame);
+
+      addText(media, "span", "app-card-coords", "180\u00b0W \u2014 180\u00b0E");
     }
-
-    var frame = document.createElement("div");
-    frame.className = "app-card-media-frame";
-    media.appendChild(frame);
-
-    addText(media, "span", "app-card-coords", "180\u00b0W \u2014 180\u00b0E");
 
     card.appendChild(media);
     item.appendChild(card);
@@ -581,7 +587,7 @@
           "aria-label",
           "Animated preview of historical borders changing over time"
         );
-        activePreview = window.CookMapPreview.mount(plate);
+        activePreviews.push(window.CookMapPreview.mount(plate));
       } else {
         plate.className = "detail-plate";
         plate.setAttribute("aria-hidden", "true");

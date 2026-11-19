@@ -11,9 +11,8 @@
 
   var MAP_W = 1200;
   var MAP_H = 896;
-  var LOOP_SECONDS = 32;
+  var LOOP_SECONDS = 24;
   var SAMPLE_COUNT = 32;
-  var REDUCED_MOTION_PROGRESS = 0.25; /* Classical peak (~117 CE) */
 
   /* Muted antique-atlas palette harmonized with Midnight Navy & Cream */
   var PALETTE = {
@@ -2274,18 +2273,17 @@
     }
   }
 
-  /* ---------- Mount animated map inside detail plate ---------- */
+  /* ---------- Mount animated map inside a plate or showcase card ---------- */
 
-  function mount(container) {
+  function mount(container, options) {
+    var opts = options || {};
+    var interactive = opts.interactive !== false;
     var destroyed = false;
     var rafId = 0;
     var assets = null;
-    var prefersReduced =
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    var isPlaying = !prefersReduced;
-    var progress = prefersReduced ? REDUCED_MOTION_PROGRESS : 0.0;
+    var isPlaying = true;
+    var progress = 0.0;
     var lastTimestamp = 0;
     var lastYearText = "";
     var lastEraText = "";
@@ -2327,32 +2325,50 @@
     yearPill.textContent = formatYear(progressToYear(progress));
     container.appendChild(yearPill);
 
-    /* Bottom-edge subtle timeline bar */
+    /* Bottom bar: interactive scrubber on detail page, subtle progress strip on cards */
     var controls = document.createElement("div");
-    controls.className = "map-preview-controls";
-
-    var toggleBtn = document.createElement("button");
-    toggleBtn.type = "button";
-    toggleBtn.className = "map-preview-toggle";
-    toggleBtn.id = "map-preview-toggle";
-    setToggleIcon(toggleBtn, isPlaying);
-    controls.appendChild(toggleBtn);
-
-    var scrubber = document.createElement("input");
-    scrubber.type = "range";
-    scrubber.className = "map-preview-scrubber";
-    scrubber.id = "map-preview-scrubber";
-    scrubber.min = "0";
-    scrubber.max = "1000";
-    scrubber.step = "1";
-    scrubber.value = String(Math.round(progress * 1000));
-    scrubber.setAttribute("aria-label", "Scrub historical timeline");
-    controls.appendChild(scrubber);
-
+    var toggleBtn = null;
+    var scrubber = null;
+    var trackFill = null;
     var eraTag = document.createElement("span");
     eraTag.className = "map-preview-era";
     eraTag.textContent = getEraLabel(progressToYear(progress));
-    controls.appendChild(eraTag);
+
+    if (interactive) {
+      controls.className = "map-preview-controls";
+
+      toggleBtn = document.createElement("button");
+      toggleBtn.type = "button";
+      toggleBtn.className = "map-preview-toggle";
+      toggleBtn.id = "map-preview-toggle";
+      setToggleIcon(toggleBtn, isPlaying);
+      controls.appendChild(toggleBtn);
+
+      scrubber = document.createElement("input");
+      scrubber.type = "range";
+      scrubber.className = "map-preview-scrubber";
+      scrubber.id = "map-preview-scrubber";
+      scrubber.min = "0";
+      scrubber.max = "1000";
+      scrubber.step = "1";
+      scrubber.value = String(Math.round(progress * 1000));
+      scrubber.setAttribute("aria-label", "Scrub historical timeline");
+      controls.appendChild(scrubber);
+
+      controls.appendChild(eraTag);
+    } else {
+      controls.className = "map-preview-controls is-passive";
+      controls.setAttribute("aria-hidden", "true");
+
+      var track = document.createElement("div");
+      track.className = "map-preview-track";
+      trackFill = document.createElement("div");
+      trackFill.className = "map-preview-track-fill";
+      track.appendChild(trackFill);
+      controls.appendChild(track);
+
+      controls.appendChild(eraTag);
+    }
 
     container.appendChild(controls);
 
@@ -2400,7 +2416,7 @@
       /* 4. Composite clipped territories onto the base atlas */
       ctx.drawImage(offCanvas, 0, 0, MAP_W, MAP_H);
 
-      /* 5. Update year badge, era caption, and scrubber position */
+      /* 5. Update year badge, era caption, and timeline progress */
       var yearText = formatYear(year);
       if (yearText !== lastYearText) {
         lastYearText = yearText;
@@ -2413,11 +2429,16 @@
         eraTag.textContent = eraText;
       }
 
-      var sliderVal = String(Math.round(p * 1000));
-      if (document.activeElement !== scrubber) {
-        scrubber.value = sliderVal;
+      var pct = (p * 100).toFixed(2) + "%";
+      if (scrubber) {
+        var sliderVal = String(Math.round(p * 1000));
+        if (document.activeElement !== scrubber) {
+          scrubber.value = sliderVal;
+        }
+        scrubber.style.setProperty("--progress", pct);
+      } else if (trackFill) {
+        trackFill.style.width = pct;
       }
-      scrubber.style.setProperty("--progress", (p * 100).toFixed(2) + "%");
     }
 
     function tick(now) {
@@ -2457,21 +2478,25 @@
       }
     }
 
-    /* Interactive controls */
-    toggleBtn.addEventListener("click", function () {
-      isPlaying = !isPlaying;
-      setToggleIcon(toggleBtn, isPlaying);
-      if (isPlaying) {
-        startLoop();
-      } else {
-        stopLoop();
-      }
-    });
+    /* Interactive controls (descriptor page) */
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", function () {
+        isPlaying = !isPlaying;
+        setToggleIcon(toggleBtn, isPlaying);
+        if (isPlaying) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      });
+    }
 
-    scrubber.addEventListener("input", function () {
-      progress = clamp(Number(scrubber.value) / 1000, 0, 1);
-      drawFrame(progress);
-    });
+    if (scrubber) {
+      scrubber.addEventListener("input", function () {
+        progress = clamp(Number(scrubber.value) / 1000, 0, 1);
+        drawFrame(progress);
+      });
+    }
 
     /* Pause when tab is hidden to save battery */
     function onVisibilityChange() {
@@ -2510,7 +2535,9 @@
       setProgress: function (p) {
         progress = clamp(p, 0, 1);
         isPlaying = false;
-        setToggleIcon(toggleBtn, false);
+        if (toggleBtn) {
+          setToggleIcon(toggleBtn, false);
+        }
         stopLoop();
         drawFrame(progress);
       },
