@@ -12,10 +12,11 @@ A static Cook Automation hub, ready to deploy as one Worker named `cook-automati
 - `#/contact` shows the Contact page with `support@cookaut.com` and a copy-email action.
 - `public/manifest.webmanifest`, theme color `#0E1B2B`, brand SVGs in `public/brand/`, and updated `CA` icons. No service worker.
 - The header brand is the static cream wordmark (`public/brand/wordmark-cream.svg`).
-- The home hero lockup is inline in `public/index.html`. On load, only its CA monogram draws: the C, then the A, then the swoosh, once. COOK, AUTOMATION, the rule, and EST. 2019 stay visible. `prefers-reduced-motion` shows the finished lockup.
+- The home hero lockup is inline in `public/index.html`. On load, only its CA monogram draws: the C, then the A, then the swoosh, once. The A draws solid; the swoosh cut opens with the swoosh. COOK, AUTOMATION, the rule, and EST. 2019 stay visible. `prefers-reduced-motion` shows the finished lockup.
 
 ## Recent changes
 
+- Hero CA draw no longer cuts a swoosh-shaped hole out of the A while the A is stroking. That clear-space mask stays closed until the swoosh wipe, then opens with it. The settled lockup still matches `public/brand/lockup-est2019-cream.svg`.
 - Moved the one-time CA draw off the header and onto the CA monogram inside the home hero lockup (`public/index.html`, `public/styles.css`, `public/app.js`). The header is the static cream wordmark again. COOK, AUTOMATION, the rule, and EST. 2019 in the lockup do not animate. `prefers-reduced-motion` shows the finished lockup.
 - Added `02 · Narrated tours` (`Tours that talk you through the map`) and `03 · Go down the rabbit hole` (`Every name links to the source`) to `public/apps.json` (`sections` array) for World History Map, rendered via `renderAppDetail` in `public/app.js` with divider/lead styles in `public/styles.css`.
 - Added the animated World History Map preview (`public/map-preview.js`) across Home, Apps, and the World History Map overview page.

@@ -386,7 +386,8 @@ img {
   stroke-dashoffset: 0;
 }
 
-.hero-lockup[data-settled="true"] .logo-swoosh {
+.hero-lockup[data-settled="true"] .logo-swoosh,
+.hero-lockup[data-settled="true"] .logo-swoosh-cut {
   animation: none;
   clip-path: none;
 }
@@ -1699,7 +1700,8 @@ img {
     stroke-dashoffset: 0;
   }
 
-  .hero-lockup .logo-swoosh {
+  .hero-lockup .logo-swoosh,
+  .hero-lockup .logo-swoosh-cut {
     animation: none;
     clip-path: none;
   }
