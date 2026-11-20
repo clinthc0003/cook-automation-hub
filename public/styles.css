@@ -117,75 +117,9 @@ img {
   opacity: 0.86;
 }
 
-/*
-  Header CA monogram. The box matches the old wordmark height so the
-  bar does not grow. Width follows the monogram viewBox (644 / 296).
-*/
-.brand-mark {
-  display: block;
+.brand-wordmark {
   height: 17px;
-  width: 37px;
-  overflow: hidden;
-}
-
-.brand-mark .logo-pen {
-  fill: none;
-  stroke: #eee9e3;
-  stroke-width: 24;
-  stroke-linecap: square;
-  stroke-linejoin: miter;
-  stroke-miterlimit: 12;
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-}
-
-.brand-mark .logo-swoosh {
-  fill: #eee9e3;
-}
-
-/* C, then A, then a short diagonal wipe for the swoosh. Plays once. */
-.brand-mark .logo-c {
-  animation: logo-pen-draw 1.2s cubic-bezier(0.45, 0.05, 0.2, 1) 0.3s forwards;
-}
-
-.brand-mark .logo-a {
-  animation: logo-pen-draw 1.05s cubic-bezier(0.45, 0.05, 0.2, 1) 1.25s forwards;
-}
-
-.brand-mark .logo-swoosh-blade {
-  width: 0;
-  animation: logo-swoosh-wipe 0.5s cubic-bezier(0.42, 0, 0.58, 1) 2.2s forwards;
-}
-
-@keyframes logo-pen-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes logo-swoosh-wipe {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 136px;
-  }
-}
-
-/* After the run, drop the pen and the clip so the mark is the static art. */
-.brand-mark[data-settled="true"] .logo-pen {
-  animation: none;
-  stroke-dashoffset: 0;
-}
-
-.brand-mark[data-settled="true"] .logo-swoosh {
-  animation: none;
-  clip-path: none;
-}
-
-.brand-mark[data-settled="true"] .logo-swoosh-blade {
-  animation: none;
+  width: auto;
 }
 
 .site-nav {
@@ -392,8 +326,73 @@ img {
 }
 
 .hero-lockup {
+  display: block;
   width: min(410px, 100%);
   height: auto;
+}
+
+/*
+  Hero CA monogram only. COOK, AUTOMATION, the rule, and EST. 2019
+  are not in these classes, so they stay on screen the whole time.
+  C, then A, then the swoosh. Plays once.
+*/
+.hero-lockup .logo-pen {
+  fill: none;
+  stroke: #eee9e3;
+  stroke-width: 24;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 12;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+.hero-lockup .logo-swoosh {
+  fill: #eee9e3;
+}
+
+.hero-lockup .logo-c {
+  animation: logo-pen-draw 1.2s cubic-bezier(0.45, 0.05, 0.2, 1) 0.3s forwards;
+}
+
+.hero-lockup .logo-a {
+  animation: logo-pen-draw 1.05s cubic-bezier(0.45, 0.05, 0.2, 1) 1.25s forwards;
+}
+
+.hero-lockup .logo-swoosh-blade {
+  width: 0;
+  animation: logo-swoosh-wipe 0.5s cubic-bezier(0.42, 0, 0.58, 1) 2.2s forwards;
+}
+
+@keyframes logo-pen-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes logo-swoosh-wipe {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 136px;
+  }
+}
+
+/* Drop the pen and the clip so the frame is the static lockup. */
+.hero-lockup[data-settled="true"] .logo-pen {
+  animation: none;
+  stroke-dashoffset: 0;
+}
+
+.hero-lockup[data-settled="true"] .logo-swoosh {
+  animation: none;
+  clip-path: none;
+}
+
+.hero-lockup[data-settled="true"] .logo-swoosh-blade {
+  animation: none;
 }
 
 .hero-rule {
@@ -1593,9 +1592,8 @@ img {
     gap: 0.75rem;
   }
 
-  .brand-mark {
+  .brand-wordmark {
     height: 13px;
-    width: 28px;
   }
 
   .site-nav {
@@ -1696,17 +1694,17 @@ img {
     transition-duration: 0.01ms !important;
   }
 
-  .brand-mark .logo-pen {
+  .hero-lockup .logo-pen {
     animation: none;
     stroke-dashoffset: 0;
   }
 
-  .brand-mark .logo-swoosh {
+  .hero-lockup .logo-swoosh {
     animation: none;
     clip-path: none;
   }
 
-  .brand-mark .logo-swoosh-blade {
+  .hero-lockup .logo-swoosh-blade {
     animation: none;
   }
 }

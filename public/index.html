@@ -22,7 +22,7 @@
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-    <link rel="stylesheet" href="/styles.css?v=3" />
+    <link rel="stylesheet" href="/styles.css?v=4" />
   </head>
   <body>
     <!-- Header -->
@@ -34,93 +34,12 @@
           href="#/"
           aria-label="Cook Automation home"
         >
-          <!--
-            CA monogram from /brand/monogram-cream.svg.
-            Same viewBox, paths, stroke, mask, and clip. Drawn once on load.
-          -->
-          <svg
-            class="brand-mark"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="190 364 644 296"
-            width="37"
+          <img
+            class="brand-wordmark"
+            src="/brand/wordmark-cream.svg"
+            alt="Cook Automation"
             height="17"
-            role="img"
-            aria-label="Cook Automation"
-            focusable="false"
-          >
-            <title>Cook Automation</title>
-
-            <defs>
-              <!-- Swoosh ribbon. The mask uses it to clear a gap through the A. -->
-              <path id="brand-swoosh" d="M -4 82 Q 48 64 112 28 Q 48 100 -4 82 Z"/>
-
-              <!-- Flat baseline cut, copied from the monogram file. -->
-              <clipPath id="brand-base-bold">
-                <rect x="-200" y="-200" width="600" height="299.49"/>
-              </clipPath>
-
-              <!-- Transparent gap where the swoosh will sit. -->
-              <mask id="brand-swoosh-gap" maskUnits="userSpaceOnUse" x="-120" y="-120" width="400" height="400">
-                <rect x="-120" y="-120" width="400" height="400" fill="#FFFFFF"/>
-                <use href="#brand-swoosh" fill="#000000" stroke="#000000" stroke-width="14.4" stroke-linejoin="round"/>
-              </mask>
-
-              <!--
-                Blade anchored at the swoosh tail. Its width grows along the
-                ribbon, lower-left toward the upper-right tip.
-              -->
-              <clipPath id="brand-swoosh-wipe" clipPathUnits="userSpaceOnUse">
-                <rect
-                  class="logo-swoosh-blade"
-                  x="0"
-                  y="-42"
-                  width="136"
-                  height="84"
-                  transform="translate(-4 82) rotate(-25)"
-                />
-              </clipPath>
-            </defs>
-
-            <!-- Artwork -->
-            <g>
-              <!-- C -->
-              <g transform="translate(222.31 396.37) scale(2.31)">
-                <path
-                  class="logo-pen logo-c"
-                  d="M 112 0 H 38 A 38 38 0 0 0 0 38 V 62 A 38 38 0 0 0 38 100 H 112"
-                  pathLength="100"
-                  fill="none"
-                  stroke="#EEE9E3"
-                  stroke-width="24"
-                  stroke-linecap="square"
-                  stroke-linejoin="miter"
-                  stroke-miterlimit="12"
-                />
-              </g>
-
-              <!-- A, then the swoosh that slices through it -->
-              <g transform="translate(558.25 396.37) scale(2.31)">
-                <g mask="url(#brand-swoosh-gap)">
-                  <g transform="translate(0 12.51)" clip-path="url(#brand-base-bold)">
-                    <path
-                      class="logo-pen logo-a"
-                      d="M -23.2 140 L 52.0 0 L 127.2 140"
-                      pathLength="100"
-                      fill="none"
-                      stroke="#EEE9E3"
-                      stroke-width="24"
-                      stroke-linecap="square"
-                      stroke-linejoin="miter"
-                      stroke-miterlimit="12"
-                    />
-                  </g>
-                </g>
-                <g class="logo-swoosh" clip-path="url(#brand-swoosh-wipe)">
-                  <use href="#brand-swoosh" fill="#EEE9E3"/>
-                </g>
-              </g>
-            </g>
-          </svg>
+          />
         </a>
 
         <nav class="site-nav" aria-label="Primary">
@@ -141,11 +60,176 @@
           aria-hidden="true"
         />
         <div class="hero-inner">
-          <img
-            class="hero-lockup"
-            src="/brand/lockup-est2019-cream.svg"
-            alt="Cook Automation, Est. 2019"
-          />
+          <!--
+            Lockup from /brand/lockup-est2019-cream.svg.
+            Only the CA monogram draws. Wordmark, rule, and EST. 2019 stay put.
+          -->
+          <svg class="hero-lockup" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="116 116 1804 442" width="1804" height="442" role="img" aria-label="Cook Automation, Est. 2019" focusable="false">
+            <title>Cook Automation, Est. 2019</title>
+            <defs>
+              <!-- Glyph centre lines: shared by monogram and wordmark -->
+              <path id="lockup-glyph-C" d="M 112 0 H 38 A 38 38 0 0 0 0 38 V 62 A 38 38 0 0 0 38 100 H 112"/>
+              <path id="lockup-glyph-O" d="M 38 0 H 80 A 38 38 0 0 1 118 38 V 62 A 38 38 0 0 1 80 100 H 38 A 38 38 0 0 1 0 62 V 38 A 38 38 0 0 1 38 0 Z"/>
+              <path id="lockup-glyph-U" d="M 0 0 V 62 A 38 38 0 0 0 38 100 H 70 A 38 38 0 0 0 108 62 V 0"/>
+              <path id="lockup-glyph-K" d="M 0 0 V 100 M 124 -26.27 L 14 54 L 124 122.38"/>
+              <path id="lockup-glyph-T" d="M 0 0 H 104 M 52.0 0 V 100"/>
+              <path id="lockup-glyph-I" d="M 0 0 V 100"/>
+              <path id="lockup-glyph-N" d="M 0 100 V 0 L 108 100 V 0"/>
+              <path id="lockup-glyph-M" d="M 0 100 V 0 L 68.0 100 L 136 0 V 100"/>
+              <path id="lockup-glyph-A" d="M -23.2 140 L 52.0 0 L 127.2 140"/>
+              <path id="lockup-glyph-E" d="M 92 0 H 0 V 100 H 92 M 0 50 H 82"/>
+              <path id="lockup-glyph-S" d="M 100 0 H 25 A 25 25 0 0 0 0 25 A 25 25 0 0 0 25 50 H 75 A 25 25 0 0 1 100 75 A 25 25 0 0 1 75 100 H 0"/>
+              <path id="lockup-glyph-2" d="M 0 0 H 75 A 25 25 0 0 1 100 25 A 25 25 0 0 1 75 50 H 25 A 25 25 0 0 0 0 75 V 100 H 100"/>
+              <path id="lockup-glyph-0" d="M 38 0 H 58 A 38 38 0 0 1 96 38 V 62 A 38 38 0 0 1 58 100 H 38 A 38 38 0 0 1 0 62 V 38 A 38 38 0 0 1 38 0 Z"/>
+              <path id="lockup-glyph-1" d="M 0 18 L 24 0 V 100"/>
+              <path id="lockup-glyph-9" d="M 100 56 H 25 A 25 25 0 0 1 0 31 V 25 A 25 25 0 0 1 25 0 H 75 A 25 25 0 0 1 100 25 V 75 A 25 25 0 0 1 75 100 H 0"/>
+              <path id="lockup-glyph-period" d="M 0 99.5 V 100"/>
+              <path id="lockup-glyph-middot" d="M 0 49.75 V 50.25"/>
+              <path id="lockup-glyph-A-swoosh-bold" d="M -4 82 Q 48 64 112 28 Q 48 100 -4 82 Z"/>
+              <path id="lockup-glyph-A-swoosh-light" d="M -4 82 Q 48 71.5 112 28 Q 48 92.5 -4 82 Z"/>
+
+              <!-- Trim lines: cut diagonal stroke ends flat at cap height / baseline -->
+              <clipPath id="lockup-band-bold"><rect x="-200" y="-12" width="600" height="124"/></clipPath>
+              <clipPath id="lockup-base-bold"><rect x="-200" y="-200" width="600" height="299.49"/></clipPath>
+              <clipPath id="lockup-band-light"><rect x="-200" y="-7" width="600" height="114"/></clipPath>
+              <clipPath id="lockup-base-light"><rect x="-200" y="-200" width="600" height="300.33"/></clipPath>
+
+              <!-- Transparent swoosh clear-space masks -->
+              <mask id="lockup-mask-swoosh-bold" maskUnits="userSpaceOnUse" x="-120" y="-120" width="400" height="400">
+                <rect x="-120" y="-120" width="400" height="400" fill="#FFFFFF"/>
+                <use xlink:href="#lockup-glyph-A-swoosh-bold" fill="#000000" stroke="#000000" stroke-width="14.4" stroke-linejoin="round"/>
+              </mask>
+              <mask id="lockup-mask-swoosh-light" maskUnits="userSpaceOnUse" x="-120" y="-120" width="400" height="400">
+                <rect x="-120" y="-120" width="400" height="400" fill="#FFFFFF"/>
+                <use xlink:href="#lockup-glyph-A-swoosh-light" fill="#000000" stroke="#000000" stroke-width="8.4" stroke-linejoin="round"/>
+              </mask>
+
+              <!-- Blade grows along the monogram swoosh, tail to tip. -->
+              <clipPath id="lockup-swoosh-wipe" clipPathUnits="userSpaceOnUse">
+                <rect class="logo-swoosh-blade" x="0" y="-42" width="136" height="84" transform="translate(-4 82) rotate(-25)"/>
+              </clipPath>
+
+            </defs>
+
+          <!-- Artwork -->
+            <g>
+              <!-- Monogram: the brand C and A. These three shapes draw once. -->
+              <g transform="translate(151.05 151.05) scale(2.59)">
+                <path
+                  class="logo-pen logo-c"
+                  d="M 112 0 H 38 A 38 38 0 0 0 0 38 V 62 A 38 38 0 0 0 38 100 H 112"
+                  pathLength="100"
+                  fill="none"
+                  stroke="#EEE9E3"
+                  stroke-width="24"
+                  stroke-linecap="square"
+                  stroke-linejoin="miter"
+                  stroke-miterlimit="12"
+                />
+              </g>
+              <g transform="translate(526.95 151.05) scale(2.59)">
+                <g mask="url(#lockup-mask-swoosh-bold)">
+                  <g transform="translate(0 12.51)" clip-path="url(#lockup-base-bold)">
+                    <path
+                      class="logo-pen logo-a"
+                      d="M -23.2 140 L 52.0 0 L 127.2 140"
+                      pathLength="100"
+                      fill="none"
+                      stroke="#EEE9E3"
+                      stroke-width="24"
+                      stroke-linecap="square"
+                      stroke-linejoin="miter"
+                      stroke-miterlimit="12"
+                    />
+                  </g>
+                </g>
+                <g class="logo-swoosh" clip-path="url(#lockup-swoosh-wipe)">
+                  <use xlink:href="#lockup-glyph-A-swoosh-bold" fill="#EEE9E3"/>
+                </g>
+              </g>
+              <!-- "COOK" (bold) -->
+              <g transform="translate(952.43 139.35) scale(1.61)">
+                <use xlink:href="#lockup-glyph-C" stroke="#EEE9E3" fill="none" stroke-width="24" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1194.37 139.35) scale(1.61)">
+                <use xlink:href="#lockup-glyph-O" stroke="#EEE9E3" fill="none" stroke-width="24" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1455.66 139.35) scale(1.61)">
+                <use xlink:href="#lockup-glyph-O" stroke="#EEE9E3" fill="none" stroke-width="24" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1716.95 139.35) scale(1.61)" clip-path="url(#lockup-band-bold)">
+                <use xlink:href="#lockup-glyph-K" stroke="#EEE9E3" fill="none" stroke-width="24" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <!-- "AUTOMATION" (light) -->
+              <g transform="translate(938.8 364.97) scale(0.71)">
+                <g mask="url(#lockup-mask-swoosh-light)">
+                  <g transform="translate(0 6.67)" clip-path="url(#lockup-base-light)">
+                    <use xlink:href="#lockup-glyph-A" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+                  </g>
+                </g>
+                <use xlink:href="#lockup-glyph-A-swoosh-light" fill="#EEE9E3"/>
+              </g>
+              <g transform="translate(1041.72 364.97) scale(0.71)">
+                <use xlink:href="#lockup-glyph-U" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1150.98 364.97) scale(0.71)">
+                <use xlink:href="#lockup-glyph-T" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1248.89 364.97) scale(0.71)">
+                <use xlink:href="#lockup-glyph-O" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1360.99 364.97) scale(0.71)" clip-path="url(#lockup-band-light)">
+                <use xlink:href="#lockup-glyph-M" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1486.61 364.97) scale(0.71)">
+                <g mask="url(#lockup-mask-swoosh-light)">
+                  <g transform="translate(0 6.67)" clip-path="url(#lockup-base-light)">
+                    <use xlink:href="#lockup-glyph-A" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+                  </g>
+                </g>
+                <use xlink:href="#lockup-glyph-A-swoosh-light" fill="#EEE9E3"/>
+              </g>
+              <g transform="translate(1593.79 364.97) scale(0.71)">
+                <use xlink:href="#lockup-glyph-T" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1691.7 364.97) scale(0.71)">
+                <use xlink:href="#lockup-glyph-I" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1720.08 364.97) scale(0.71)">
+                <use xlink:href="#lockup-glyph-O" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1832.18 364.97) scale(0.71)" clip-path="url(#lockup-band-light)">
+                <use xlink:href="#lockup-glyph-N" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <!-- Rule + EST. 2019 -->
+              <rect x="933.08" y="523.69" width="444.83" height="6.39" fill="#EEE9E3"/>
+              <!-- "EST. 2019" (light) -->
+              <g transform="translate(1443.5 504.08) scale(0.46)">
+                <use xlink:href="#lockup-glyph-E" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1507.36 504.08) scale(0.46)">
+                <use xlink:href="#lockup-glyph-S" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1577.6 504.08) scale(0.46)">
+                <use xlink:href="#lockup-glyph-T" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1644.2 504.08) scale(0.46)">
+                <use xlink:href="#lockup-glyph-period" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1696.2 504.08) scale(0.46)">
+                <use xlink:href="#lockup-glyph-2" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1763.71 504.08) scale(0.46)">
+                <use xlink:href="#lockup-glyph-0" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1832.13 504.08) scale(0.46)" clip-path="url(#lockup-band-light)">
+                <use xlink:href="#lockup-glyph-1" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+              <g transform="translate(1864.97 504.08) scale(0.46)">
+                <use xlink:href="#lockup-glyph-9" stroke="#EEE9E3" fill="none" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="12"/>
+              </g>
+            </g>
+          </svg>
           <div class="hero-rule" aria-hidden="true"></div>
           <h1 class="hero-title">A focused home for the tools we run.</h1>
           <p class="hero-lead">
@@ -182,6 +266,6 @@
     </footer>
 
     <script src="/map-preview.js?v=2"></script>
-    <script src="/app.js?v=3"></script>
+    <script src="/app.js?v=4"></script>
   </body>
 </html>

@@ -16,6 +16,10 @@
   var renderToken = 0;
   var activePreviews = [];
 
+  /* Kept so later home visits can clone the lockup after the first draw. */
+  var heroLockupSource = document.querySelector(".hero-lockup");
+  var heroLockupPlayed = false;
+
   /* ---------- Data ---------- */
 
   function loadApps() {
@@ -347,44 +351,114 @@
 
   /* ---------- Home view ---------- */
 
+  /*
+    The CA in the hero lockup draws from CSS, once. Later visits, and
+    reduced motion, show the finished art.
+  */
+  function settleHeroLockup(lockup) {
+    if (!lockup || lockup.getAttribute("data-settled") === "true") {
+      return;
+    }
+
+    function settle() {
+      lockup.setAttribute("data-settled", "true");
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      settle();
+      return;
+    }
+
+    var blade = lockup.querySelector(".logo-swoosh-blade");
+    if (blade) {
+      blade.addEventListener("animationend", settle);
+    }
+
+    window.setTimeout(settle, 3200);
+  }
+
+  function buildHeroLockup() {
+    var lockup = heroLockupSource
+      ? heroLockupSource.cloneNode(true)
+      : document.createElement("img");
+
+    if (!heroLockupSource) {
+      lockup.className = "hero-lockup";
+      lockup.src = "/brand/lockup-est2019-cream.svg";
+      lockup.alt = "Cook Automation, Est. 2019";
+      return lockup;
+    }
+
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (heroLockupPlayed || reduce) {
+      lockup.setAttribute("data-settled", "true");
+    } else {
+      lockup.removeAttribute("data-settled");
+    }
+    return lockup;
+  }
+
   function renderHome(token) {
     setTitle("");
-    clearView();
 
-    /* Hero */
-    var hero = document.createElement("section");
-    hero.className = "hero";
-    hero.appendChild(buildWatermark("hero-watermark"));
+    /*
+      First load keeps the lockup already in the page so its draw is
+      not restarted. Later visits rebuild the hero on the finished art.
+    */
+    var existingHero = document.querySelector("#view > .hero");
+    var keepHero =
+      existingHero &&
+      existingHero.querySelector(".hero-lockup") &&
+      !view.querySelector(".home-section");
 
-    var heroInner = document.createElement("div");
-    heroInner.className = "hero-inner";
+    if (keepHero) {
+      heroLockupPlayed = true;
+      settleHeroLockup(existingHero.querySelector(".hero-lockup"));
+    } else {
+      clearView();
 
-    var lockup = document.createElement("img");
-    lockup.className = "hero-lockup";
-    lockup.src = "/brand/lockup-est2019-cream.svg";
-    lockup.alt = "Cook Automation, Est. 2019";
-    heroInner.appendChild(lockup);
+      /* Hero */
+      var hero = document.createElement("section");
+      hero.className = "hero";
+      hero.appendChild(buildWatermark("hero-watermark"));
 
-    var rule = document.createElement("div");
-    rule.className = "hero-rule";
-    rule.setAttribute("aria-hidden", "true");
-    heroInner.appendChild(rule);
+      var heroInner = document.createElement("div");
+      heroInner.className = "hero-inner";
 
-    addText(heroInner, "h1", "hero-title", "A focused home for the tools we run.");
-    addText(
-      heroInner,
-      "p",
-      "hero-lead",
-      "Explore what we build, read a quick overview of each app, and launch any tool in its own browser tab."
-    );
+      var lockup = buildHeroLockup();
+      if (!heroLockupPlayed) {
+        heroLockupPlayed = true;
+        settleHeroLockup(lockup);
+      }
+      heroInner.appendChild(lockup);
 
-    var actions = document.createElement("div");
-    actions.className = "hero-actions";
-    addArrowLink(actions, "button button-light", "#/apps", "Browse apps", "hero-browse-apps");
-    heroInner.appendChild(actions);
+      var rule = document.createElement("div");
+      rule.className = "hero-rule";
+      rule.setAttribute("aria-hidden", "true");
+      heroInner.appendChild(rule);
 
-    hero.appendChild(heroInner);
-    view.appendChild(hero);
+      addText(heroInner, "h1", "hero-title", "A focused home for the tools we run.");
+      addText(
+        heroInner,
+        "p",
+        "hero-lead",
+        "Explore what we build, read a quick overview of each app, and launch any tool in its own browser tab."
+      );
+
+      var actions = document.createElement("div");
+      actions.className = "hero-actions";
+      addArrowLink(
+        actions,
+        "button button-light",
+        "#/apps",
+        "Browse apps",
+        "hero-browse-apps"
+      );
+      heroInner.appendChild(actions);
+
+      hero.appendChild(heroInner);
+      view.appendChild(hero);
+    }
 
     /* Featured / available tools */
     var toolsSection = document.createElement("section");
@@ -924,35 +998,6 @@
     view.appendChild(body);
   }
 
-  /* ---------- Header monogram ---------- */
-
-  /*
-    The CA mark draws itself from CSS, once. When that finishes (or when
-    motion is reduced) settle it on the plain filled/stroked art.
-  */
-  function settleBrandMark() {
-    var mark = document.querySelector(".brand-mark");
-    if (!mark) {
-      return;
-    }
-
-    function settle() {
-      mark.setAttribute("data-settled", "true");
-    }
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      settle();
-      return;
-    }
-
-    var blade = mark.querySelector(".logo-swoosh-blade");
-    if (blade) {
-      blade.addEventListener("animationend", settle);
-    }
-
-    window.setTimeout(settle, 3200);
-  }
-
   /* ---------- Start ---------- */
 
   function show() {
@@ -1000,6 +1045,5 @@
   }
 
   window.addEventListener("hashchange", show);
-  settleBrandMark();
   show();
 })();
