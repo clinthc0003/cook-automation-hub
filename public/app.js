@@ -924,6 +924,35 @@
     view.appendChild(body);
   }
 
+  /* ---------- Header monogram ---------- */
+
+  /*
+    The CA mark draws itself from CSS, once. When that finishes (or when
+    motion is reduced) settle it on the plain filled/stroked art.
+  */
+  function settleBrandMark() {
+    var mark = document.querySelector(".brand-mark");
+    if (!mark) {
+      return;
+    }
+
+    function settle() {
+      mark.setAttribute("data-settled", "true");
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      settle();
+      return;
+    }
+
+    var blade = mark.querySelector(".logo-swoosh-blade");
+    if (blade) {
+      blade.addEventListener("animationend", settle);
+    }
+
+    window.setTimeout(settle, 3200);
+  }
+
   /* ---------- Start ---------- */
 
   function show() {
@@ -971,5 +1000,6 @@
   }
 
   window.addEventListener("hashchange", show);
+  settleBrandMark();
   show();
 })();

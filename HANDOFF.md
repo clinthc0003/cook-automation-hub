@@ -11,9 +11,11 @@ A static Cook Automation hub, ready to deploy as one Worker named `cook-automati
 - `#/app/<id>` shows a feature overview subpage with a direct new-tab launch button, a Back to apps link, an animated historical-borders preview (`public/map-preview.js`), stats, features, and additional editorial sections (`app.sections` in `public/apps.json`).
 - `#/contact` shows the Contact page with `support@cookaut.com` and a copy-email action.
 - `public/manifest.webmanifest`, theme color `#0E1B2B`, brand SVGs in `public/brand/`, and updated `CA` icons. No service worker.
+- The header brand is the cream CA monogram, drawn inline in `public/index.html`. On load it strokes the C, then the A, then wipes in the swoosh, once.
 
 ## Recent changes
 
+- Header brand is the CA monogram from `public/brand/monogram-cream.svg`, inlined in `public/index.html`. On load it draws the C, then the A, then wipes in the swoosh, once, and settles on that art. `prefers-reduced-motion` shows the finished mark. The link still goes to `#/` with the same accessible name. Header colors and bar layout are unchanged. The wide cream wordmark is no longer in the header.
 - Added `02 · Narrated tours` (`Tours that talk you through the map`) and `03 · Go down the rabbit hole` (`Every name links to the source`) to `public/apps.json` (`sections` array) for World History Map, rendered via `renderAppDetail` in `public/app.js` with divider/lead styles in `public/styles.css`.
 - Added the animated World History Map preview (`public/map-preview.js`) across Home, Apps, and the World History Map overview page.
 - Added the Contact page (`#/contact`) with `support@cookaut.com`.
