@@ -57,6 +57,46 @@
         "copy": "Runs directly in the browser on desktop or mobile and installs to your home screen as a fullscreen web app."
       }
     ],
+    "sections": [
+      {
+        "eyebrow": "02 \u00b7 Narrated tours",
+        "title": "Tours that talk you through the map",
+        "lead": "Choose from 99 guided tours and the map does the navigating\u2014reframing borders for each moment in time, pinning the places that matter, and reading the story aloud.",
+        "items": [
+          {
+            "title": "Three Studio Voices",
+            "copy": "Every tour is pre-recorded in Heart, Bella, and Michael\u2014switchable at any time from the tour list or card, with Device voice as a browser fallback."
+          },
+          {
+            "title": "Stop-by-Stop Framing",
+            "copy": "Each stop jumps to the right year, pins key locations, and fades the rest of the map into the background while keeping markers and notes intact."
+          },
+          {
+            "title": "Autoplay or Self-Paced",
+            "copy": "Let autoplay read each stop as it opens, or turn it off to read at your own pace. Speech never moves the tour forward on its own."
+          }
+        ]
+      },
+      {
+        "eyebrow": "03 \u00b7 Go down the rabbit hole",
+        "title": "Every name links to the source",
+        "lead": "Place names and events across the app are live links that open in a new tab\u2014keeping your exact year, zoom, and open stop right where you left them.",
+        "items": [
+          {
+            "title": "Wikipedia or Grokipedia",
+            "copy": "Choose your preferred encyclopedia once in Menu & Layers and every link across the app\u2014including tour and date cards\u2014follows your choice."
+          },
+          {
+            "title": "Never Lose Your Spot",
+            "copy": "Articles open in a separate tab so you can follow a thread as far as it goes and return straight to the same map view."
+          },
+          {
+            "title": "Curated Further Reading",
+            "copy": "Every tour carries a short Further Reading list of museums, universities, archives, and primary-source collections beyond encyclopedias."
+          }
+        ]
+      }
+    ],
     "credit": "Border data from Cliopatria (Seshat Global History Databank, v0.2.1) with OpenFreeMap basemaps."
   }
 ]

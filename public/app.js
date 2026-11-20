@@ -662,6 +662,48 @@
       view.appendChild(featSection);
     }
 
+    /* Additional editorial sections (e.g. narrated tours, reference links) */
+    if (Array.isArray(app.sections) && app.sections.length) {
+      app.sections.forEach(function (sec, secIndex) {
+        var section = document.createElement("section");
+        section.className = "detail-section";
+        var headingId = "detail-section-heading-" + secIndex;
+        section.setAttribute("aria-labelledby", headingId);
+
+        var secHead = document.createElement("div");
+        secHead.className = "section-head";
+        var secHeadLeft = document.createElement("div");
+        if (sec.eyebrow) {
+          addText(secHeadLeft, "p", "eyebrow", sec.eyebrow);
+        }
+        var secHeading = addText(secHeadLeft, "h2", "", sec.title || "");
+        secHeading.id = headingId;
+        if (sec.lead) {
+          addText(secHeadLeft, "p", "section-lead", sec.lead);
+        }
+        secHead.appendChild(secHeadLeft);
+        section.appendChild(secHead);
+
+        if (Array.isArray(sec.items) && sec.items.length) {
+          var itemGrid = document.createElement("ol");
+          itemGrid.className = "feature-grid";
+
+          sec.items.forEach(function (entry, itemIndex) {
+            var card = document.createElement("li");
+            card.className = "feature-card";
+            addText(card, "span", "feature-num", padIndex(itemIndex));
+            addText(card, "h3", "", entry.title);
+            addText(card, "p", "", entry.copy);
+            itemGrid.appendChild(card);
+          });
+
+          section.appendChild(itemGrid);
+        }
+
+        view.appendChild(section);
+      });
+    }
+
     /* Bottom launch callout + data credit */
     var footBand = document.createElement("section");
     footBand.className = "detail-cta-wrap";
